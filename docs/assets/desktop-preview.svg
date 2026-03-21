@@ -1,0 +1,76 @@
+<svg width="900" height="560" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,BlinkMacSystemFont,'SF Pro Display',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0f0f23"/><stop offset="1" stop-color="#121228"/></linearGradient>
+    <linearGradient id="sidebar" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#161630"/><stop offset="1" stop-color="#141428"/></linearGradient>
+  </defs>
+  <!-- Window -->
+  <rect width="900" height="560" rx="12" fill="url(#bg)" stroke="#2a2a4a"/>
+  <!-- Sidebar -->
+  <rect width="200" height="560" rx="12" fill="url(#sidebar)"/>
+  <rect x="200" width="1" height="560" fill="#2a2a4a"/>
+  <!-- Traffic lights -->
+  <circle cx="22" cy="22" r="6" fill="#ff5f57"/><circle cx="40" cy="22" r="6" fill="#febc2e"/><circle cx="58" cy="22" r="6" fill="#28c840"/>
+  <!-- Logo -->
+  <text x="20" y="62" fill="#a78bfa" font-size="15" font-weight="700">OpenSkill</text>
+  <text x="20" y="78" fill="#8888aa" font-size="10">One Skill. All Your AI.</text>
+  <!-- Nav items -->
+  <rect x="10" y="98" width="180" height="32" rx="8" fill="#7c3aed"/>
+  <text x="46" y="118" fill="#fff" font-size="13">📊 Dashboard</text>
+  <text x="46" y="150" fill="#8888aa" font-size="13">📦 Assets</text>
+  <text x="46" y="176" fill="#8888aa" font-size="13">🔍 Discover</text>
+  <text x="46" y="202" fill="#8888aa" font-size="13">🔒 Security</text>
+  <text x="46" y="228" fill="#8888aa" font-size="13">🔄 Migrate</text>
+  <text x="46" y="254" fill="#8888aa" font-size="13">🏥 Health</text>
+  <text x="46" y="280" fill="#8888aa" font-size="13">🎮 Profile</text>
+  <text x="20" y="540" fill="#8888aa" font-size="10">v1.0.0 · MIT License</text>
+  <!-- Topbar -->
+  <rect x="201" y="0" width="699" height="46" fill="#0f0f23"/>
+  <line x1="201" y1="46" x2="900" y2="46" stroke="#2a2a4a"/>
+  <text x="224" y="30" fill="#e0e0f0" font-size="16" font-weight="600">Dashboard</text>
+  <!-- Cards -->
+  <rect x="224" y="64" width="155" height="80" rx="10" fill="#161630" stroke="#2a2a4a"/>
+  <text x="240" y="86" fill="#8888aa" font-size="10" text-transform="uppercase">TOTAL ASSETS</text>
+  <text x="240" y="126" fill="#a78bfa" font-size="28" font-weight="700">12</text>
+  <rect x="394" y="64" width="155" height="80" rx="10" fill="#161630" stroke="#2a2a4a"/>
+  <text x="410" y="86" fill="#8888aa" font-size="10">SKILLS</text>
+  <text x="410" y="126" fill="#e0e0f0" font-size="28" font-weight="700">7</text>
+  <rect x="564" y="64" width="155" height="80" rx="10" fill="#161630" stroke="#2a2a4a"/>
+  <text x="580" y="86" fill="#8888aa" font-size="10">MEMORIES</text>
+  <text x="580" y="126" fill="#22c55e" font-size="28" font-weight="700">3</text>
+  <rect x="734" y="64" width="155" height="80" rx="10" fill="#161630" stroke="#2a2a4a"/>
+  <text x="750" y="86" fill="#8888aa" font-size="10">PREFERENCES</text>
+  <text x="750" y="126" fill="#f59e0b" font-size="28" font-weight="700">2</text>
+  <!-- XP Row -->
+  <text x="224" y="178" fill="#e0e0f0" font-size="28">🔍</text>
+  <text x="262" y="172" fill="#e0e0f0" font-size="16" font-weight="600">Explorer · Lv.1</text>
+  <text x="262" y="192" fill="#8888aa" font-size="12">320 XP · Streak: 5 days 🔥</text>
+  <rect x="262" y="200" width="300" height="6" rx="3" fill="#1c1c40"/>
+  <rect x="262" y="200" width="186" height="6" rx="3" fill="#7c3aed"/>
+  <!-- Quick Actions -->
+  <text x="224" y="238" fill="#e0e0f0" font-size="14" font-weight="600">Quick Actions</text>
+  <rect x="224" y="250" width="92" height="32" rx="8" fill="#7c3aed"/><text x="236" y="271" fill="#fff" font-size="12">🔍 Discover</text>
+  <rect x="324" y="250" width="72" height="32" rx="8" fill="#1c1c40" stroke="#2a2a4a"/><text x="336" y="271" fill="#e0e0f0" font-size="12">🔒 Scan</text>
+  <rect x="404" y="250" width="104" height="32" rx="8" fill="#1c1c40" stroke="#2a2a4a"/><text x="416" y="271" fill="#e0e0f0" font-size="12">🏥 Health Check</text>
+  <rect x="516" y="250" width="82" height="32" rx="8" fill="#1c1c40" stroke="#2a2a4a"/><text x="528" y="271" fill="#e0e0f0" font-size="12">🔄 Migrate</text>
+  <rect x="606" y="250" width="104" height="32" rx="8" fill="#1c1c40" stroke="#2a2a4a"/><text x="618" y="271" fill="#e0e0f0" font-size="12">🎯 Smart Match</text>
+  <!-- Platforms -->
+  <text x="224" y="316" fill="#e0e0f0" font-size="14" font-weight="600">Connected Platforms</text>
+  <!-- Platform cards row 1 -->
+  <rect x="224" y="328" width="155" height="40" rx="8" fill="#161630" stroke="#22c55e"/>
+  <circle cx="244" cy="348" r="4" fill="#22c55e"/><text x="258" y="353" fill="#e0e0f0" font-size="12">Claude</text>
+  <rect x="394" y="328" width="155" height="40" rx="8" fill="#161630" stroke="#22c55e"/>
+  <circle cx="414" cy="348" r="4" fill="#22c55e"/><text x="428" y="353" fill="#e0e0f0" font-size="12">Cursor</text>
+  <rect x="564" y="328" width="155" height="40" rx="8" fill="#161630" stroke="#22c55e"/>
+  <circle cx="584" cy="348" r="4" fill="#22c55e"/><text x="598" y="353" fill="#e0e0f0" font-size="12">Codex CLI</text>
+  <rect x="734" y="328" width="155" height="40" rx="8" fill="#161630" stroke="#2a2a4a"/>
+  <circle cx="754" cy="348" r="4" fill="#2a2a4a"/><text x="768" y="353" fill="#8888aa" font-size="12">Copilot</text>
+  <!-- Platform cards row 2 -->
+  <rect x="224" y="378" width="155" height="40" rx="8" fill="#161630" stroke="#2a2a4a"/>
+  <circle cx="244" cy="398" r="4" fill="#2a2a4a"/><text x="258" y="403" fill="#8888aa" font-size="12">Gemini</text>
+  <rect x="394" y="378" width="155" height="40" rx="8" fill="#161630" stroke="#2a2a4a"/>
+  <circle cx="414" cy="398" r="4" fill="#2a2a4a"/><text x="428" y="403" fill="#8888aa" font-size="12">VS Code</text>
+  <rect x="564" y="378" width="155" height="40" rx="8" fill="#161630" stroke="#2a2a4a"/>
+  <circle cx="584" cy="398" r="4" fill="#2a2a4a"/><text x="598" y="403" fill="#8888aa" font-size="12">Windsurf</text>
+  <rect x="734" y="378" width="155" height="40" rx="8" fill="#161630" stroke="#2a2a4a"/>
+  <circle cx="754" cy="398" r="4" fill="#2a2a4a"/><text x="768" y="403" fill="#8888aa" font-size="12">OpenClaw</text>
+</svg>

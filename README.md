@@ -69,6 +69,38 @@ os list
 os sync --to openclaw
 ```
 
+## Screenshots
+
+### macOS Desktop Client
+
+<p align="center">
+  <img src="docs/assets/desktop-preview.svg" width="800" alt="OpenSkill Desktop — Dashboard" />
+</p>
+
+> 7 views: Dashboard · Assets · Discover · Security · Migrate · Health · Profile
+> Native macOS integration with traffic light buttons, app menu, keyboard shortcuts
+
+### CLI
+
+```bash
+$ os discover
+
+  🔍 Discovered 3 platforms with 5 assets
+
+  ✅ Claude — CLAUDE.md, memory.json, 2 skills
+  ✅ Cursor — .cursorrules
+  ✅ Codex  — AGENTS.md, 1 skill
+
+$ os match "react component testing"
+
+  🎯 Smart Match: "react component testing"
+
+  1. 📦 React Patterns (85/100)
+     Tech: react · Task match: component, testing
+  2. 🌐 Jest Testing (62/100)
+     Tech: jest · Task match: testing
+```
+
 ## Architecture — 4-Layer Model
 
 > Aligned with Claude Code's extension architecture (编程接口层 → 集成层 → 扩展层 → 基础层)
@@ -149,25 +181,36 @@ Then in Claude: *"Search my openskill for TypeScript coding skills"*
 
 ## Roadmap
 
-- [x] **Phase 0** — Concept validation (current)
-  - [x] Whitepaper (中文 / English)
-  - [x] CLI prototype
-  - [x] Asset Schema v0.1
-  - [x] Claude Adapter prototype
-- [x] **Phase 1** — MVP (1-3 months)
-  - [x] Wallet Core (registry, versioning, conflict resolution)
-  - [x] OpenClaw + Cursor Adapters
-  - [x] MCP Server v2 (9 tools)
-  - [x] SDK v2 with Zod (npm)
-  - [x] Web Dashboard prototype
-- [x] **Phase 2** — Ecosystem (3-6 months)
-  - [x] VS Code + Windsurf Adapters
-  - [x] Asset Marketplace
-  - [x] Team / Organization Wallets
-- [x] **Phase 3** — Protocol (6-12 months)
-  - [x] OSP Protocol Specification v1.0
-  - [x] Vendor Adapter Specification + 5 adapters
-  - [x] Decentralized Asset Registry (local/hosted/IPFS)
+### v1.0.0 — Shipped ✅
+
+- [x] 53 CLI commands + 14 core modules + 9 platform adapters
+- [x] OSP Protocol v1.0 + Ed25519 crypto + security scanner
+- [x] Hook system (22 events) + Smart Match + Hardware Bridge
+- [x] Growth system (6 ranks, XP, achievements)
+- [x] macOS Desktop Client (Electron)
+- [x] Agent Skills SKILL.md for cross-platform install
+- [x] TypeScript strict + 19 tests + CI/CD
+
+### v1.1.0 — Next
+
+- [ ] npm publish (`npm install -g openskill`)
+- [ ] Homebrew formula (`brew install openskill`)
+- [ ] Real-time file watcher (auto-detect config changes)
+- [ ] `os sync` live two-way sync engine
+
+### v1.2.0 — Growth
+
+- [ ] Web dashboard (React)
+- [ ] Skill marketplace with ratings + reviews
+- [ ] Team collaboration + shared skill libraries
+- [ ] Plugin system for community adapters
+
+### v2.0.0 — Vision
+
+- [ ] Decentralized skill registry (IPFS)
+- [ ] AI-powered skill auto-generation from workflow
+- [ ] Cross-device real-time sync (WebSocket)
+- [ ] Mobile companion app (React Native)
 
 ## Contributing
 
