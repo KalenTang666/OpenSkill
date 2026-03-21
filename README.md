@@ -113,9 +113,9 @@ os sync --to openclaw
 
 | Package | Description | Status |
 |---------|-------------|--------|
-| [`openskill`](./packages/cli) | CLI tool — `os init`, `os sync`, `os list` | ✅ v0.6.0 |
-| [`@openskill/sdk`](./packages/sdk) | TypeScript SDK for programmatic access | ✅ v0.6.0 |
-| [`@openskill/mcp-server`](./packages/mcp-server) | MCP Server for Claude/OpenClaw integration | ✅ v0.6.0 |
+| [`openskill`](./packages/cli) | CLI tool — `os init`, `os sync`, `os list` | ✅ v1.0.0 |
+| [`@openskill/sdk`](./packages/sdk) | TypeScript SDK for programmatic access | ✅ v1.0.0 |
+| [`@openskill/mcp-server`](./packages/mcp-server) | MCP Server for Claude/OpenClaw integration | ✅ v1.0.0 |
 
 ## CLI Commands
 
