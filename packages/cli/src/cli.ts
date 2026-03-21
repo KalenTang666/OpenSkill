@@ -15,7 +15,7 @@ import { CopilotAdapter } from './adapters/copilot.js';
 import { CodexAdapter } from './adapters/codex.js';
 
 const program = new Command();
-program.name('os').description('OpenSkill — Cross-domain AI data asset manager').version('1.0.0');
+program.name('os').description('OpenSkill — Cross-domain AI data asset manager').version('1.2.0');
 
 const typeIcon: Record<string, string> = { skill: '⚡', memory: '🧠', preference: '⚙️' };
 const levelLabel: Record<number, string> = { 0: 'L0:Universal', 1: 'L1:Domain', 2: 'L2:Tool' };
@@ -875,6 +875,90 @@ program.command('devices').description('Manage connected devices')
     console.log(chalk.bold('\n  📱 Connected Devices\n'));
     all.forEach((d: any) => console.log(`  ${d.sync_status === 'online' ? '🟢' : '⚪'} ${d.name} (${d.type}) — ${d.capabilities.length} caps`));
     console.log();
+  });
+
+// ═══════════════════════════════════════════════════════════
+// v1.1.0+ — File Watcher + Live Sync
+// ═══════════════════════════════════════════════════════════
+
+program.command('watch').description('Watch platform configs for real-time changes')
+  .option('--stop', 'Stop watching')
+  .option('--status', 'Show watch status')
+  .action((opts) => {
+    const { startWatching, stopWatching, getWatchStatus } = require('./core/file-watcher.js');
+    if (opts.stop) { const n = stopWatching(); console.log(chalk.green(`  ✓ Stopped ${n} watchers`)); return; }
+    if (opts.status) { const s = getWatchStatus(); console.log(`  Watching: ${s.watching} files`); s.targets.forEach((t: any) => console.log(`    📄 ${t.platform}: ${t.path}`)); return; }
+    const targets = startWatching((e: any) => console.log(`  ${e.type === 'modified' ? '📝' : e.type === 'created' ? '✨' : '🗑️'} [${e.platform}] ${e.type}: ${e.path}`));
+    console.log(chalk.bold(`\n  👁️ Watching ${targets.length} platform configs\n`));
+    targets.forEach((t: any) => console.log(`    📄 ${t.platform}: ${t.path}`));
+    console.log(chalk.dim('\n  Press Ctrl+C to stop\n'));
+  });
+
+program.command('sync-live').description('Live two-way sync between platforms')
+  .option('--add <source:target>', 'Add sync pair (e.g. claude:cursor)')
+  .option('--remove <source:target>', 'Remove sync pair')
+  .option('--run', 'Execute all sync pairs now')
+  .option('--list', 'List sync pairs')
+  .action((opts) => {
+    const { addSyncPair, removeSyncPair, syncAll, getSyncPairs } = require('./core/live-sync.js');
+    if (opts.add) { const [s, t] = opts.add.split(':'); const p = addSyncPair(s, t); console.log(chalk.green(`  ✓ Sync pair: ${p.source} ↔ ${p.target}`)); return; }
+    if (opts.remove) { const [s, t] = opts.remove.split(':'); removeSyncPair(s, t); console.log(chalk.green('  ✓ Removed')); return; }
+    if (opts.run) { const results = syncAll(); results.forEach((r: any) => console.log(`  ${r.conflicts ? '⚠️' : '✅'} ${r.pair.source} → ${r.pair.target}: ${r.filesChanged} changed`)); return; }
+    const pairs = getSyncPairs();
+    if (!pairs.length) { console.log(chalk.dim('  No sync pairs. Add with: os sync-live --add claude:cursor')); return; }
+    pairs.forEach((p: any) => console.log(`  ${p.status === 'idle' ? '🟢' : '🟡'} ${p.source} ↔ ${p.target} (${p.strategy})`));
+  });
+
+// ═══════════════════════════════════════════════════════════
+// v1.2.0+ — Plugin System + Marketplace Ratings
+// ═══════════════════════════════════════════════════════════
+
+program.command('plugin').description('Manage plugins')
+  .option('--list', 'List installed plugins')
+  .option('--install <name>', 'Install plugin')
+  .option('--uninstall <id>', 'Uninstall plugin')
+  .option('--enable <id>', 'Enable plugin')
+  .option('--disable <id>', 'Disable plugin')
+  .option('--types', 'List plugin types')
+  .action((opts) => {
+    const { getPlugins, installPlugin, uninstallPlugin, togglePlugin, getPluginTypes } = require('./core/plugin-system.js');
+    if (opts.types) { getPluginTypes().forEach((t: any) => console.log(`  ${t.type}: ${t.description}`)); return; }
+    if (opts.install) { const p = installPlugin({ name: opts.install, version: '1.0.0', description: 'Community plugin', author: 'community', type: 'adapter', entry: 'index.ts' }); console.log(chalk.green(`  ✓ Installed: ${p.name}`)); return; }
+    if (opts.uninstall) { uninstallPlugin(opts.uninstall); console.log(chalk.green('  ✓ Uninstalled')); return; }
+    if (opts.enable) { togglePlugin(opts.enable, true); console.log(chalk.green('  ✓ Enabled')); return; }
+    if (opts.disable) { togglePlugin(opts.disable, false); console.log(chalk.green('  ✓ Disabled')); return; }
+    const plugins = getPlugins();
+    if (!plugins.length) { console.log(chalk.dim('  No plugins installed.')); return; }
+    plugins.forEach((p: any) => console.log(`  ${p.enabled ? '🟢' : '⚪'} ${p.name} v${p.version} (${p.type})`));
+  });
+
+program.command('rate <skillId>').description('Rate a skill')
+  .requiredOption('--score <n>', 'Score 1-5')
+  .option('--review <text>', 'Review text')
+  .option('--tags <items>', 'Tags (comma-separated)')
+  .action((skillId, opts) => {
+    const { rateSkill, getSkillStats } = require('./core/marketplace-ratings.js');
+    rateSkill(skillId, 'local-user', parseInt(opts.score), opts.review, opts.tags?.split(','));
+    const stats = getSkillStats(skillId);
+    console.log(chalk.bold(`\n  ⭐ ${stats.avg_score}/5 (${stats.total_ratings} ratings)\n`));
+  });
+
+// ═══════════════════════════════════════════════════════════
+// v1.2.0 — Plugin System
+// ═══════════════════════════════════════════════════════════
+
+program.command('plugins').description('Manage OpenSkill plugins')
+  .option('--list', 'List installed plugins')
+  .option('--install <name>', 'Install a plugin')
+  .option('--remove <name>', 'Remove a plugin')
+  .option('--discover', 'Discover local plugins')
+  .action((opts) => {
+    const { getPlugins, removePlugin, discoverLocalPlugins, getPluginTypes } = require('./core/plugin-system.js');
+    if (opts.remove) { removePlugin(opts.remove); console.log(chalk.green('  ✓ Plugin removed')); return; }
+    if (opts.discover) { const found = discoverLocalPlugins(); console.log(`  Found ${found.length} local plugins`); found.forEach((p: any) => console.log(`    📦 ${p.name} (${p.type})`)); return; }
+    const plugins = getPlugins();
+    if (!plugins.length) { console.log(chalk.dim('  No plugins installed. Types: ' + getPluginTypes().map((t: any) => t.type).join(', '))); return; }
+    plugins.forEach((p: any) => console.log(`  ${p.enabled ? '🟢' : '⚪'} ${p.name} v${p.version} (${p.type}) — ${p.description}`));
   });
 
 program.parse();

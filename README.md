@@ -9,7 +9,7 @@
   <br />
   跨域管理 Skills · Memory · Preferences 的开放标准 AI 技能资产管理器
   <br />
-  <sub>53 CLI commands · 14 core modules · 9 adapters · macOS desktop client</sub>
+  <sub>58 CLI commands · 18 core modules · 9 adapters · macOS desktop client</sub>
 </p>
 
 <p align="center">
@@ -181,31 +181,26 @@ Then in Claude: *"Search my openskill for TypeScript coding skills"*
 
 ## Roadmap
 
-### v1.0.0 — Shipped ✅
+### v1.0.0 — Current Release ✅
 
-- [x] 53 CLI commands + 14 core modules + 9 platform adapters
-- [x] OSP Protocol v1.0 + Ed25519 crypto + security scanner
+- [x] 58 CLI commands + 18 core modules + 9 platform adapters
+- [x] OSP Protocol v1.0 + Ed25519 crypto + security scanner (14 rules)
 - [x] Hook system (22 events) + Smart Match + Hardware Bridge
+- [x] File watcher (real-time config detection) + Live sync engine
+- [x] Plugin system + Marketplace ratings & reviews
 - [x] Growth system (6 ranks, XP, achievements)
-- [x] macOS Desktop Client (Electron)
+- [x] macOS Desktop Client (Electron, 7 views, secure IPC)
+- [x] TypeScript strict (zero errors) + 19 tests + CI/CD
 - [x] Agent Skills SKILL.md for cross-platform install
-- [x] TypeScript strict + 19 tests + CI/CD
 
-### v1.1.0 — Next
+### Next
 
 - [ ] npm publish (`npm install -g openskill`)
 - [ ] Homebrew formula (`brew install openskill`)
-- [ ] Real-time file watcher (auto-detect config changes)
-- [ ] `os sync` live two-way sync engine
+- [ ] macOS DMG binary release on GitHub
+- [ ] Web dashboard (full React rewrite)
 
-### v1.2.0 — Growth
-
-- [ ] Web dashboard (React)
-- [ ] Skill marketplace with ratings + reviews
-- [ ] Team collaboration + shared skill libraries
-- [ ] Plugin system for community adapters
-
-### v2.0.0 — Vision
+### Vision
 
 - [ ] Decentralized skill registry (IPFS)
 - [ ] AI-powered skill auto-generation from workflow

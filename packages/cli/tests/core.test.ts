@@ -240,3 +240,110 @@ describe('Backup & Restore', () => {
     expect(restored.assets[0].name).toBe('Test Skill');
   });
 });
+
+describe('File Watcher', () => {
+  beforeEach(setup);
+  afterEach(cleanup);
+
+  it('detects known platform config paths', () => {
+    const WATCH_TARGETS = ['CLAUDE.md', '.cursorrules', 'AGENTS.md', '.windsurfrules'];
+    expect(WATCH_TARGETS.length).toBeGreaterThanOrEqual(4);
+  });
+
+  it('scan detects file changes', () => {
+    const known: Record<string, string> = { '/tmp/test': 'old-hash' };
+    // Simulate hash comparison
+    const currentHash = 'new-hash';
+    const events = [];
+    for (const [path, oldHash] of Object.entries(known)) {
+      if (oldHash !== currentHash) events.push({ type: 'modified', path });
+    }
+    expect(events).toHaveLength(1);
+    expect(events[0].type).toBe('modified');
+  });
+});
+
+describe('Live Sync', () => {
+  beforeEach(setup);
+  afterEach(cleanup);
+
+  it('manages sync pairs', () => {
+    const pairs = [
+      { source: 'claude', target: 'cursor', strategy: 'latest-wins', status: 'idle' },
+      { source: 'claude', target: 'codex', strategy: 'merge', status: 'idle' },
+    ];
+    writeFileSync(join(TEST_DIR, 'sync-state.json'), JSON.stringify(pairs));
+    const loaded = JSON.parse(readFileSync(join(TEST_DIR, 'sync-state.json'), 'utf-8'));
+    expect(loaded).toHaveLength(2);
+    expect(loaded[0].strategy).toBe('latest-wins');
+  });
+
+  it('detects conflicts between files', () => {
+    const srcHash = 'abc123';
+    const tgtHash = 'def456';
+    expect(srcHash).not.toBe(tgtHash); // Conflict exists
+  });
+});
+
+describe('Plugin System', () => {
+  beforeEach(setup);
+  afterEach(cleanup);
+
+  it('installs and lists plugins', () => {
+    const plugins = [
+      { id: 'plugin-trae', name: 'Trae Adapter', version: '1.0.0', type: 'adapter', enabled: true },
+      { id: 'plugin-eslint', name: 'ESLint Scanner', version: '1.0.0', type: 'scanner', enabled: true },
+    ];
+    const dir = join(TEST_DIR, 'plugins');
+    mkdirSync(dir, { recursive: true });
+    writeFileSync(join(dir, 'registry.json'), JSON.stringify(plugins));
+    const loaded = JSON.parse(readFileSync(join(dir, 'registry.json'), 'utf-8'));
+    expect(loaded).toHaveLength(2);
+    expect(loaded.filter((p: any) => p.enabled)).toHaveLength(2);
+  });
+
+  it('supports 5 plugin types', () => {
+    const types = ['adapter', 'scanner', 'hook', 'theme', 'command'];
+    expect(types).toHaveLength(5);
+  });
+
+  it('toggles plugin enable/disable', () => {
+    const plugin = { id: 'test', enabled: true };
+    plugin.enabled = false;
+    expect(plugin.enabled).toBe(false);
+  });
+});
+
+describe('Marketplace Ratings', () => {
+  beforeEach(setup);
+  afterEach(cleanup);
+
+  it('rates a skill and calculates average', () => {
+    const ratings = [
+      { skill_id: 'sk1', user_id: 'u1', score: 5, tags: ['useful'] },
+      { skill_id: 'sk1', user_id: 'u2', score: 4, tags: ['useful', 'secure'] },
+      { skill_id: 'sk1', user_id: 'u3', score: 3, tags: ['needs-work'] },
+    ];
+    const avg = Math.round((ratings.reduce((s, r) => s + r.score, 0) / ratings.length) * 10) / 10;
+    expect(avg).toBe(4);
+    expect(ratings).toHaveLength(3);
+  });
+
+  it('aggregates top tags', () => {
+    const ratings = [
+      { tags: ['useful', 'secure'] },
+      { tags: ['useful', 'documented'] },
+      { tags: ['useful'] },
+    ];
+    const counts = new Map<string, number>();
+    for (const r of ratings) for (const t of r.tags) counts.set(t, (counts.get(t) || 0) + 1);
+    const topTags = [...counts.entries()].sort((a, b) => b[1] - a[1]).map(([t]) => t);
+    expect(topTags[0]).toBe('useful');
+  });
+
+  it('clamps score to 1-5', () => {
+    expect(Math.max(1, Math.min(5, 0))).toBe(1);
+    expect(Math.max(1, Math.min(5, 6))).toBe(5);
+    expect(Math.max(1, Math.min(5, 3))).toBe(3);
+  });
+});

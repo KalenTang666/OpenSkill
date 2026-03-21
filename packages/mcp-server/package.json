@@ -1,6 +1,6 @@
 {
   "name": "@openskill/mcp-server",
-  "version": "1.0.0",
+  "version": "1.2.0",
   "description": "MCP Server for OpenSkill — access your AI data assets from Claude/OpenClaw",
   "author": "Kalen666",
   "license": "MIT",

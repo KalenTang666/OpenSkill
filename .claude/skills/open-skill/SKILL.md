@@ -1,7 +1,7 @@
 ---
 name: open-skill
 description: Cross-domain AI skill asset manager. Discover, analyze, migrate, and sync your Skills, Memory, and Preferences across 8 AI platforms (Claude, Codex, Cursor, Copilot, Gemini, VS Code, Windsurf, OpenClaw). Features smart matching, hook automation, security scanning, growth gamification, and cross-device sync.
-version: 1.0.0
+version: 1.2.0
 author: Kalen666
 tags: [ai, skills, wallet, agent, cross-platform, mcp, memory, migration, security, gamification]
 ---
