@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "openskill": {
+      "command": "npx",
+      "args": ["-y", "@openskill/mcp-server"],
+      "env": {}
+    }
+  }
+}

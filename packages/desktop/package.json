@@ -1,0 +1,37 @@
+{
+  "name": "openskill-desktop",
+  "version": "1.0.0",
+  "description": "OpenSkill — macOS Desktop Client for AI Data Asset Management",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --mac",
+    "build:all": "electron-builder --mac --win --linux"
+  },
+  "author": "Kalen666",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KalenTang666/OpenSkill.git",
+    "directory": "packages/desktop"
+  },
+  "build": {
+    "appId": "cn.dnadance.openskill",
+    "productName": "OpenSkill",
+    "mac": {
+      "category": "public.app-category.developer-tools",
+      "icon": "assets/icon.png",
+      "target": ["dmg", "zip"]
+    },
+    "files": ["src/**/*", "assets/**/*"],
+    "directories": {
+      "output": "dist"
+    }
+  },
+  "dependencies": {
+    "electron": "^33.0.0"
+  },
+  "devDependencies": {
+    "electron-builder": "^25.0.0"
+  }
+}

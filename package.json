@@ -1,0 +1,25 @@
+{
+  "name": "openskill-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "OpenSkill — Cross-domain AI data asset management",
+  "author": "Kalen666",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KalenTang666/OpenSkill.git"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "clean": "rm -rf packages/*/dist"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

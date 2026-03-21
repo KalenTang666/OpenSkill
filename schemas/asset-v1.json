@@ -1,0 +1,93 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://openskill.dev/schema/asset-v1.json",
+  "title": "OpenSkill Asset v1",
+  "description": "Schema for a OpenSkill AI data asset",
+  "type": "object",
+  "required": ["id", "type", "level", "name", "version", "created_at", "updated_at", "author", "tags", "compatibility", "content", "sync"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^hw-(ski|mem|pre)-[a-z0-9]+",
+      "description": "Unique asset identifier"
+    },
+    "type": {
+      "type": "string",
+      "enum": ["skill", "memory", "preference"],
+      "description": "Asset type"
+    },
+    "level": {
+      "type": "integer",
+      "enum": [0, 1, 2],
+      "description": "0=universal, 1=domain, 2=tool-specific"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Human-readable name"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+      "description": "Semantic version"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "author": {
+      "type": "object",
+      "required": ["id"],
+      "properties": {
+        "id": { "type": "string" },
+        "signature": { "type": "string" }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "compatibility": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Compatible platforms, e.g. ['claude', 'openclaw', 'cursor']"
+    },
+    "content": {
+      "type": "object",
+      "required": ["format", "body"],
+      "properties": {
+        "format": {
+          "type": "string",
+          "enum": ["markdown", "json", "yaml", "typescript", "plaintext"]
+        },
+        "body": { "type": "string" },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "sync": {
+      "type": "object",
+      "required": ["strategy", "last_synced", "conflict_resolution"],
+      "properties": {
+        "strategy": {
+          "type": "string",
+          "enum": ["auto", "manual", "on-change"]
+        },
+        "last_synced": {
+          "type": "object",
+          "additionalProperties": { "type": "string", "format": "date-time" }
+        },
+        "conflict_resolution": {
+          "type": "string",
+          "enum": ["user-decides", "latest-wins", "merge"]
+        }
+      }
+    }
+  }
+}

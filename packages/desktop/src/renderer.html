@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenSkill</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0f0f23;--bg2:#161630;--bg3:#1c1c40;--text:#e0e0f0;--text2:#8888aa;--accent:#7c3aed;--accent2:#a78bfa;--green:#22c55e;--red:#ef4444;--amber:#f59e0b;--border:#2a2a4a;--radius:10px;--sidebar:220px}
+body{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',sans-serif;background:var(--bg);color:var(--text);display:flex;height:100vh;overflow:hidden;-webkit-app-region:drag;user-select:none}
+a{color:var(--accent2);text-decoration:none}
+.sidebar{width:var(--sidebar);background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column;padding-top:40px;-webkit-app-region:drag;flex-shrink:0}
+.sidebar .logo{padding:16px 20px;font-size:15px;font-weight:700;color:var(--accent2);letter-spacing:0.5px}
+.sidebar .logo span{font-size:11px;color:var(--text2);display:block;margin-top:2px;font-weight:400}
+.sidebar nav{flex:1;padding:8px}
+.sidebar nav button{-webkit-app-region:no-drag;display:flex;align-items:center;gap:10px;width:100%;padding:9px 14px;border:none;background:transparent;color:var(--text2);font-size:13px;border-radius:8px;cursor:pointer;text-align:left;transition:all .15s}
+.sidebar nav button:hover{background:var(--bg3);color:var(--text)}
+.sidebar nav button.active{background:var(--accent);color:#fff}
+.sidebar nav button .icon{font-size:16px;width:20px;text-align:center}
+.sidebar .version{padding:16px 20px;font-size:11px;color:var(--text2)}
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+.topbar{height:50px;padding:0 24px;display:flex;align-items:center;border-bottom:1px solid var(--border);-webkit-app-region:drag;padding-left:90px}
+.topbar h2{font-size:16px;font-weight:600}
+.content{flex:1;padding:24px;overflow-y:auto;-webkit-app-region:no-drag}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:24px}
+.card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:20px}
+.card .label{font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.card .value{font-size:28px;font-weight:700}
+.card .value.purple{color:var(--accent2)}
+.card .value.green{color:var(--green)}
+.card .value.amber{color:var(--amber)}
+.table{width:100%;border-collapse:collapse;margin-top:16px}
+.table th{text-align:left;font-size:11px;color:var(--text2);text-transform:uppercase;letter-spacing:1px;padding:8px 12px;border-bottom:1px solid var(--border)}
+.table td{padding:10px 12px;font-size:13px;border-bottom:1px solid var(--border)}
+.table tr:hover{background:var(--bg3)}
+.badge{display:inline-block;padding:2px 8px;border-radius:12px;font-size:11px;font-weight:600}
+.badge.skill{background:#7c3aed22;color:var(--accent2)}
+.badge.memory{background:#22c55e22;color:var(--green)}
+.badge.preference{background:#f59e0b22;color:var(--amber)}
+.badge.pass{background:#22c55e22;color:var(--green)}
+.badge.fail{background:#ef444422;color:var(--red)}
+.badge.detected{background:#22c55e22;color:var(--green)}
+.btn{-webkit-app-region:no-drag;padding:8px 16px;border-radius:8px;border:1px solid var(--border);background:var(--bg3);color:var(--text);font-size:13px;cursor:pointer;transition:all .15s}
+.btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.btn.primary{background:var(--accent);color:#fff;border-color:var(--accent)}
+.section-title{font-size:14px;font-weight:600;color:var(--text);margin:24px 0 12px}
+.empty{text-align:center;padding:60px;color:var(--text2)}
+.empty .icon{font-size:48px;margin-bottom:16px}
+.empty p{font-size:13px;margin-bottom:16px}
+.progress{height:6px;background:var(--bg3);border-radius:3px;overflow:hidden;margin:8px 0}
+.progress .bar{height:100%;background:var(--accent);border-radius:3px;transition:width .3s}
+.xp-row{display:flex;align-items:center;gap:12px;margin:12px 0}
+.xp-row .rank{font-size:32px}
+.xp-row .info{flex:1}
+.xp-row .info h3{font-size:18px;font-weight:600}
+.xp-row .info p{font-size:12px;color:var(--text2)}
+.toast{position:fixed;top:16px;right:16px;padding:12px 20px;border-radius:8px;font-size:13px;z-index:999;animation:slideIn .3s}
+.toast.success{background:#22c55e;color:#fff}
+.toast.error{background:#ef4444;color:#fff}
+@keyframes slideIn{from{transform:translateX(100px);opacity:0}to{transform:translateX(0);opacity:1}}
+.platform-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.platform-card{background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);padding:14px;display:flex;align-items:center;gap:10px}
+.platform-card.detected{border-color:var(--green)}
+.platform-card .dot{width:8px;height:8px;border-radius:50%;background:var(--border)}
+.platform-card.detected .dot{background:var(--green)}
+.platform-card .name{font-size:13px;font-weight:500}
+</style>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="logo">OpenSkill<span>One Skill. All Your AI.</span></div>
+  <nav id="nav">
+    <button class="active" data-page="dashboard"><span class="icon">📊</span>Dashboard</button>
+    <button data-page="assets"><span class="icon">📦</span>Assets</button>
+    <button data-page="discover"><span class="icon">🔍</span>Discover</button>
+    <button data-page="security"><span class="icon">🔒</span>Security</button>
+    <button data-page="migrate"><span class="icon">🔄</span>Migrate</button>
+    <button data-page="health"><span class="icon">🏥</span>Health</button>
+    <button data-page="profile"><span class="icon">🎮</span>Profile</button>
+  </nav>
+  <div class="version">v0.8.0 · MIT License</div>
+</div>
+
+<div class="main">
+  <div class="topbar"><h2 id="pageTitle">Dashboard</h2></div>
+  <div class="content" id="content"></div>
+</div>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const $$ = (s) => document.querySelectorAll(s);
+let currentPage = 'dashboard';
+
+// Navigation
+$('#nav').addEventListener('click', (e) => {
+  const btn = e.target.closest('button');
+  if (!btn) return;
+  $$('#nav button').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentPage = btn.dataset.page;
+  $('#pageTitle').textContent = btn.textContent.trim();
+  loadPage(currentPage);
+});
+
+// External triggers
+if (window.tokenWallet) {
+  window.tokenWallet.onAction((action) => { if (action === 'discover') { currentPage = 'discover'; loadPage('discover'); } });
+  window.tokenWallet.onNotification((data) => showToast(data.type, data.message));
+}
+
+function showToast(type, msg) {
+  const t = document.createElement('div');
+  t.className = 'toast ' + type;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 3000);
+}
+
+async function loadPage(page) {
+  const c = $('#content');
+  c.innerHTML = '<div class="empty"><div class="icon">⏳</div><p>Loading...</p></div>';
+
+  try {
+    if (window.tokenWallet) await window.tokenWallet.init();
+
+    switch (page) {
+      case 'dashboard': await renderDashboard(c); break;
+      case 'assets': await renderAssets(c); break;
+      case 'discover': await renderDiscover(c); break;
+      case 'security': await renderSecurity(c); break;
+      case 'migrate': await renderMigrate(c); break;
+      case 'health': await renderHealth(c); break;
+      case 'profile': await renderProfile(c); break;
+      default: c.innerHTML = '<div class="empty"><p>Page not found</p></div>';
+    }
+  } catch (e) {
+    c.innerHTML = `<div class="empty"><div class="icon">⚠️</div><p>Error: ${e.message}</p><button class="btn primary" onclick="loadPage('${page}')">Retry</button></div>`;
+  }
+}
+
+async function renderDashboard(c) {
+  const stats = window.tokenWallet ? await window.tokenWallet.stats() : { skills: 3, memories: 1, preferences: 2, total: 6 };
+  const profile = window.tokenWallet ? await window.tokenWallet.profile() : { xp: 250, level: 1, rank: 'explorer', streak: { current: 3, longest: 7 } };
+  const ranks = { newcomer: '🌱', explorer: '🔍', builder: '⚡', contributor: '🤝', guardian: '🛡️', architect: '🏛️' };
+
+  c.innerHTML = `
+    <div class="cards">
+      <div class="card"><div class="label">Total Assets</div><div class="value purple">${stats.total}</div></div>
+      <div class="card"><div class="label">Skills</div><div class="value">${stats.skills}</div></div>
+      <div class="card"><div class="label">Memories</div><div class="value green">${stats.memories}</div></div>
+      <div class="card"><div class="label">Preferences</div><div class="value amber">${stats.preferences}</div></div>
+    </div>
+    <div class="xp-row">
+      <div class="rank">${ranks[profile.rank] || '🌱'}</div>
+      <div class="info">
+        <h3>${profile.rank.charAt(0).toUpperCase() + profile.rank.slice(1)} · Lv.${profile.level}</h3>
+        <p>${profile.xp} XP · Streak: ${profile.streak.current} days 🔥</p>
+        <div class="progress"><div class="bar" style="width:${Math.min(100, (profile.xp % 600) / 6)}%"></div></div>
+      </div>
+    </div>
+    <div class="section-title">Quick Actions</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn primary" onclick="navigate('discover')">🔍 Discover</button>
+      <button class="btn" onclick="navigate('security')">🔒 Scan</button>
+      <button class="btn" onclick="navigate('health')">🏥 Health Check</button>
+      <button class="btn" onclick="navigate('migrate')">🔄 Migrate</button>
+    </div>`;
+}
+
+async function renderAssets(c) {
+  const assets = window.tokenWallet ? await window.tokenWallet.list() : [];
+  if (!assets.length) { c.innerHTML = '<div class="empty"><div class="icon">📦</div><p>No assets yet. Run Discover to find your AI configs.</p><button class="btn primary" onclick="navigate(\'discover\')">🔍 Discover Assets</button></div>'; return; }
+  c.innerHTML = `<table class="table"><thead><tr><th>Name</th><th>Type</th><th>Platform</th><th>Version</th><th>Updated</th></tr></thead><tbody>${
+    assets.map(a => `<tr><td>${a.name}</td><td><span class="badge ${a.type}">${a.type}</span></td><td>${(a.compatibility||[])[0]||'—'}</td><td>${a.version||'1.0.0'}</td><td>${(a.updated_at||'').slice(0,10)}</td></tr>`).join('')
+  }</tbody></table>`;
+}
+
+async function renderDiscover(c) {
+  const result = window.tokenWallet ? await window.tokenWallet.discover() : { platforms: ['claude', 'cursor'], assets: [], total: 0 };
+  c.innerHTML = `
+    <div class="cards">
+      <div class="card"><div class="label">Platforms Detected</div><div class="value green">${result.platforms.length}</div></div>
+      <div class="card"><div class="label">Assets Found</div><div class="value purple">${result.total}</div></div>
+    </div>
+    <div class="section-title">Detected Platforms</div>
+    <div class="platform-grid">
+      ${['Claude', 'Cursor', 'Codex CLI', 'Gemini', 'Copilot', 'Windsurf', 'VS Code', 'OpenClaw'].map(p =>
+        `<div class="platform-card ${result.platforms.includes(p.toLowerCase().split(' ')[0]) ? 'detected' : ''}"><div class="dot"></div><div class="name">${p}</div></div>`
+      ).join('')}
+    </div>
+    ${result.assets.length ? `<div class="section-title">Found Assets</div><table class="table"><thead><tr><th>File</th><th>Platform</th><th>Type</th><th>Size</th></tr></thead><tbody>${
+      result.assets.map(a => `<tr><td>${a.path.split('/').pop()}</td><td>${a.platform}</td><td>${a.type}</td><td>${a.size}B</td></tr>`).join('')
+    }</tbody></table>` : ''}`;
+}
+
+async function renderSecurity(c) {
+  const results = window.tokenWallet ? await window.tokenWallet.scan() : [];
+  if (!results.length) { c.innerHTML = '<div class="empty"><div class="icon">🔒</div><p>No assets to scan. Import some first.</p></div>'; return; }
+  const passed = results.filter(r => r.passed).length;
+  c.innerHTML = `
+    <div class="cards">
+      <div class="card"><div class="label">Scanned</div><div class="value">${results.length}</div></div>
+      <div class="card"><div class="label">Passed</div><div class="value green">${passed}</div></div>
+      <div class="card"><div class="label">Issues</div><div class="value" style="color:${results.length-passed>0?'var(--red)':'var(--green)'}">${results.length - passed}</div></div>
+    </div>
+    <table class="table"><thead><tr><th>Asset</th><th>Status</th><th>Trust</th><th>Findings</th></tr></thead><tbody>${
+      results.map(r => `<tr><td>${r.name}</td><td><span class="badge ${r.passed?'pass':'fail'}">${r.passed?'PASS':'FAIL'}</span></td><td>${r.trust}/100</td><td>${r.findings.length ? r.findings.map(f=>f.desc).join(', ') : '—'}</td></tr>`).join('')
+    }</tbody></table>`;
+}
+
+async function renderMigrate(c) {
+  c.innerHTML = `
+    <div class="section-title">Cross-Platform Migration</div>
+    <p style="color:var(--text2);font-size:13px;margin-bottom:20px">Move your AI identity between platforms with one click.</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div class="card">
+        <div class="label">Migrate</div>
+        <p style="font-size:13px;color:var(--text2);margin:8px 0">Transfer configs between platforms</p>
+        <code style="display:block;background:var(--bg);padding:8px;border-radius:6px;font-size:12px;color:var(--accent2);margin:8px 0">os migrate --from claude --to codex</code>
+      </div>
+      <div class="card">
+        <div class="label">Backup</div>
+        <p style="font-size:13px;color:var(--text2);margin:8px 0">Export your full AI identity</p>
+        <code style="display:block;background:var(--bg);padding:8px;border-radius:6px;font-size:12px;color:var(--accent2);margin:8px 0">os backup -o identity.osp</code>
+      </div>
+      <div class="card">
+        <div class="label">Restore</div>
+        <p style="font-size:13px;color:var(--text2);margin:8px 0">Import from a backup file</p>
+        <code style="display:block;background:var(--bg);padding:8px;border-radius:6px;font-size:12px;color:var(--accent2);margin:8px 0">os restore identity.osp</code>
+      </div>
+      <div class="card">
+        <div class="label">Onboard</div>
+        <p style="font-size:13px;color:var(--text2);margin:8px 0">Deploy wallet to a new platform</p>
+        <code style="display:block;background:var(--bg);padding:8px;border-radius:6px;font-size:12px;color:var(--accent2);margin:8px 0">os onboard gemini</code>
+      </div>
+    </div>
+    <div class="section-title" style="margin-top:24px">Supported Platforms (8)</div>
+    <div class="platform-grid">
+      ${['Claude', 'Codex CLI', 'Cursor', 'Copilot', 'Gemini', 'VS Code', 'Windsurf', 'OpenClaw'].map(p =>
+        `<div class="platform-card detected"><div class="dot"></div><div class="name">${p}</div></div>`
+      ).join('')}
+    </div>`;
+}
+
+async function renderHealth(c) {
+  const health = window.tokenWallet ? await window.tokenWallet.health() : { platforms: [], detected: ['claude', 'cursor'], score: 25 };
+  const color = health.score >= 70 ? 'green' : health.score >= 40 ? 'amber' : 'red';
+  c.innerHTML = `
+    <div class="cards">
+      <div class="card"><div class="label">Health Score</div><div class="value" style="color:var(--${color})">${health.score}/100</div></div>
+      <div class="card"><div class="label">Platforms Detected</div><div class="value green">${health.detected.length}/8</div></div>
+    </div>
+    <div class="section-title">Platform Status</div>
+    <div class="platform-grid">
+      ${(health.platforms.length ? health.platforms : ['claude','cursor','codex','gemini','copilot','windsurf','vscode','openclaw']).map(p =>
+        `<div class="platform-card ${health.detected.includes(p)?'detected':''}"><div class="dot"></div><div class="name">${p}</div></div>`
+      ).join('')}
+    </div>`;
+}
+
+async function renderProfile(c) {
+  const profile = window.tokenWallet ? await window.tokenWallet.profile() : { xp: 0, level: 0, rank: 'newcomer', achievements: [], streak: { current: 0, longest: 0 }, history: [] };
+  const ranks = ['newcomer', 'explorer', 'builder', 'contributor', 'guardian', 'architect'];
+  const badges = { newcomer: '🌱', explorer: '🔍', builder: '⚡', contributor: '🤝', guardian: '🛡️', architect: '🏛️' };
+  const thresholds = [0, 200, 600, 1500, 3500, 8000];
+  const nextXP = thresholds[Math.min(profile.level + 1, 5)] - profile.xp;
+
+  c.innerHTML = `
+    <div class="xp-row" style="margin-bottom:24px">
+      <div class="rank" style="font-size:48px">${badges[profile.rank] || '🌱'}</div>
+      <div class="info">
+        <h3 style="font-size:22px">${profile.rank.charAt(0).toUpperCase() + profile.rank.slice(1)} · Level ${profile.level}</h3>
+        <p>${profile.xp} XP · ${nextXP > 0 ? nextXP + ' XP to next level' : 'MAX LEVEL'}</p>
+        <div class="progress" style="height:8px"><div class="bar" style="width:${Math.min(100, nextXP > 0 ? ((profile.xp - thresholds[profile.level]) / (thresholds[Math.min(profile.level+1,5)] - thresholds[profile.level])) * 100 : 100)}%"></div></div>
+        <p style="margin-top:8px">🔥 Streak: ${profile.streak.current} days · Best: ${profile.streak.longest}</p>
+      </div>
+    </div>
+    <div class="section-title">Rank Progression</div>
+    <table class="table"><thead><tr><th>Level</th><th>Rank</th><th>XP Required</th><th>Status</th></tr></thead><tbody>${
+      ranks.map((r, i) => `<tr><td>Lv.${i}</td><td>${badges[r]} ${r.charAt(0).toUpperCase() + r.slice(1)}</td><td>${thresholds[i]}</td><td>${profile.level >= i ? '<span class="badge pass">Unlocked</span>' : '<span class="badge">Locked</span>'}</td></tr>`).join('')
+    }</tbody></table>
+    <div class="section-title">Recent Activity (${profile.history.length} total)</div>
+    ${profile.history.length ? `<table class="table"><thead><tr><th>Action</th><th>XP</th><th>Time</th></tr></thead><tbody>${
+      profile.history.slice(-10).reverse().map(h => `<tr><td>${h.action}</td><td>+${h.xp}</td><td>${(h.timestamp||'').slice(0,16)}</td></tr>`).join('')
+    }</tbody></table>` : '<p style="color:var(--text2);font-size:13px">No activity yet. Start using tw commands to earn XP!</p>'}`;
+}
+
+function navigate(page) {
+  currentPage = page;
+  const titles = { dashboard: 'Dashboard', assets: 'Assets', discover: 'Discover', security: 'Security', migrate: 'Migrate', health: 'Health', profile: 'Profile' };
+  $('#pageTitle').textContent = titles[page] || page;
+  $$('#nav button').forEach(b => { b.classList.toggle('active', b.dataset.page === page); });
+  loadPage(page);
+}
+
+// Initial load
+loadPage('dashboard');
+</script>
+</body>
+</html>

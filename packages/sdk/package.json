@@ -1,0 +1,27 @@
+{
+  "name": "@openskill/sdk",
+  "version": "1.0.0",
+  "description": "TypeScript SDK for OpenSkill — programmatic AI data asset management",
+  "author": "Kalen666",
+  "license": "MIT",
+  "repository": { "type": "git", "url": "https://github.com/KalenTang666/OpenSkill.git", "directory": "packages/sdk" },
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": ["dist"],
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "tsup": "^8.2.0",
+    "typescript": "^5.5.0",
+    "vitest": "^2.0.0",
+    "@types/node": "^22.0.0"
+  },
+  "engines": { "node": ">=18.0.0" }
+}

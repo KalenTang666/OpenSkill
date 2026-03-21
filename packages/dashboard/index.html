@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenSkill — Dashboard</title>
+<style>
+:root { --bg: #0f1117; --card: #1a1d27; --border: #2a2d3a; --text: #e1e4eb; --dim: #8b8fa3; --accent: #6366f1; --green: #22c55e; --yellow: #eab308; --pink: #ec4899; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'SF Pro', -apple-system, sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+.header { background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%); padding: 2rem; text-align: center; }
+.header h1 { font-size: 1.8rem; font-weight: 700; margin-bottom: .5rem; }
+.header p { opacity: .85; font-size: .95rem; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; padding: 1.5rem; max-width: 900px; margin: -2rem auto 0; position: relative; z-index: 1; }
+.stat { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 1.2rem; text-align: center; }
+.stat .num { font-size: 2rem; font-weight: 700; }
+.stat .label { font-size: .8rem; color: var(--dim); margin-top: .3rem; }
+.container { max-width: 900px; margin: 1.5rem auto; padding: 0 1.5rem; }
+.section-title { font-size: 1.1rem; font-weight: 600; margin: 1.5rem 0 .8rem; display: flex; align-items: center; gap: .5rem; }
+.assets { display: flex; flex-direction: column; gap: .6rem; }
+.asset { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem 1.2rem; cursor: pointer; transition: border-color .2s; }
+.asset:hover { border-color: var(--accent); }
+.asset-header { display: flex; justify-content: space-between; align-items: center; }
+.asset-name { font-weight: 600; }
+.asset-type { font-size: .75rem; padding: 2px 8px; border-radius: 4px; font-weight: 500; }
+.asset-type.skill { background: rgba(99,102,241,.15); color: #818cf8; }
+.asset-type.memory { background: rgba(236,72,153,.15); color: #f472b6; }
+.asset-type.preference { background: rgba(234,179,8,.15); color: #facc15; }
+.asset-meta { display: flex; gap: 1rem; margin-top: .5rem; font-size: .8rem; color: var(--dim); }
+.tag { background: rgba(99,102,241,.1); color: #818cf8; padding: 1px 6px; border-radius: 3px; font-size: .75rem; }
+.adapters { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .8rem; }
+.adapter { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 1rem; text-align: center; }
+.adapter .name { font-weight: 600; font-size: .95rem; }
+.adapter .status { font-size: .8rem; margin-top: .3rem; }
+.adapter .status.ok { color: var(--green); }
+.adapter .status.no { color: var(--dim); }
+.tabs { display: flex; gap: .5rem; margin-bottom: 1rem; }
+.tab { padding: .5rem 1rem; border-radius: 8px; font-size: .85rem; cursor: pointer; background: var(--card); border: 1px solid var(--border); color: var(--dim); }
+.tab.active { background: var(--accent); color: white; border-color: var(--accent); }
+.empty { text-align: center; padding: 3rem; color: var(--dim); }
+.footer { text-align: center; padding: 2rem; color: var(--dim); font-size: .8rem; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>🔐 OpenSkill</h1>
+  <p>Your AI Data Assets, One Wallet to Rule Them All</p>
+</div>
+
+<div class="stats" id="stats">
+  <div class="stat"><div class="num" id="s-skills">0</div><div class="label">⚡ Skills</div></div>
+  <div class="stat"><div class="num" id="s-memories">0</div><div class="label">🧠 Memories</div></div>
+  <div class="stat"><div class="num" id="s-prefs">0</div><div class="label">⚙️ Preferences</div></div>
+  <div class="stat"><div class="num" id="s-teams">0</div><div class="label">👥 Teams</div></div>
+  <div class="stat"><div class="num" id="s-mp">0</div><div class="label">📢 Marketplace</div></div>
+</div>
+
+<div class="container">
+  <div class="section-title">📡 Platform Adapters</div>
+  <div class="adapters" id="adapters"></div>
+
+  <div class="section-title">📦 Assets</div>
+  <div class="tabs" id="tabs"></div>
+  <div class="assets" id="assets"></div>
+</div>
+
+<div class="footer">OpenSkill v0.2.0 — <code>os stats</code> to refresh</div>
+
+<script>
+const DEMO_DATA = {
+  stats: { skills: 5, memories: 3, preferences: 4, teams: 1, marketplace: 2 },
+  adapters: [
+    { name: 'Claude', platform: 'claude', detected: true },
+    { name: 'OpenClaw', platform: 'openclaw', detected: true },
+    { name: 'Cursor', platform: 'cursor', detected: true },
+    { name: 'VS Code', platform: 'vscode', detected: false },
+    { name: 'Windsurf', platform: 'windsurf', detected: false },
+  ],
+  assets: [
+    { id: 'os-ski-001', type: 'skill', level: 1, name: 'TypeScript Coding Standards', version: '1.2.0', tags: ['typescript','coding'], compatibility: ['claude','openclaw','cursor'], updated_at: '2026-03-15' },
+    { id: 'os-ski-002', type: 'skill', level: 2, name: 'React Native Best Practices', version: '1.0.0', tags: ['react-native','mobile'], compatibility: ['claude'], updated_at: '2026-03-14' },
+    { id: 'os-mem-001', type: 'memory', level: 1, name: 'Project Architecture Decisions', version: '2.1.0', tags: ['architecture','decisions'], compatibility: ['claude','openclaw'], updated_at: '2026-03-15' },
+    { id: 'os-mem-002', type: 'memory', level: 0, name: 'Personal Preferences', version: '1.5.0', tags: ['personal','style'], compatibility: ['claude','openclaw','cursor','vscode'], updated_at: '2026-03-13' },
+    { id: 'os-pre-001', type: 'preference', level: 0, name: 'Writing Style (中文)', version: '1.0.0', tags: ['chinese','writing'], compatibility: ['claude','openclaw'], updated_at: '2026-03-15' },
+    { id: 'os-pre-002', type: 'preference', level: 2, name: 'Claude CLAUDE.md Rules', version: '3.2.0', tags: ['claude','rules'], compatibility: ['claude'], updated_at: '2026-03-15' },
+    { id: 'os-ski-003', type: 'skill', level: 2, name: 'Gamification Design Patterns', version: '1.1.0', tags: ['gamification','design'], compatibility: ['claude'], updated_at: '2026-03-12', marketplace: { published: true } },
+  ]
+};
+
+function render() {
+  const d = DEMO_DATA;
+  document.getElementById('s-skills').textContent = d.stats.skills;
+  document.getElementById('s-memories').textContent = d.stats.memories;
+  document.getElementById('s-prefs').textContent = d.stats.preferences;
+  document.getElementById('s-teams').textContent = d.stats.teams;
+  document.getElementById('s-mp').textContent = d.stats.marketplace;
+
+  document.getElementById('adapters').innerHTML = d.adapters.map(a =>
+    `<div class="adapter"><div class="name">${a.name}</div><div class="status ${a.detected?'ok':'no'}">${a.detected?'✓ Connected':'✗ Not detected'}</div></div>`
+  ).join('');
+
+  const types = ['all', 'skill', 'memory', 'preference'];
+  document.getElementById('tabs').innerHTML = types.map((t,i) =>
+    `<div class="tab ${i===0?'active':''}" onclick="filterAssets('${t}',this)">${t === 'all' ? '🔗 All' : t === 'skill' ? '⚡ Skills' : t === 'memory' ? '🧠 Memories' : '⚙️ Preferences'}</div>`
+  ).join('');
+
+  renderAssets('all');
+}
+
+function filterAssets(type, el) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  renderAssets(type);
+}
+
+function renderAssets(type) {
+  const assets = type === 'all' ? DEMO_DATA.assets : DEMO_DATA.assets.filter(a => a.type === type);
+  document.getElementById('assets').innerHTML = assets.length ? assets.map(a =>
+    `<div class="asset">
+      <div class="asset-header">
+        <span class="asset-name">${a.name}${a.marketplace?.published ? ' 📢' : ''}</span>
+        <span class="asset-type ${a.type}">${a.type}</span>
+      </div>
+      <div class="asset-meta">
+        <span>L${a.level}</span><span>v${a.version}</span><span>${a.updated_at}</span>
+        <span>${a.tags.map(t => `<span class="tag">#${t}</span>`).join(' ')}</span>
+      </div>
+    </div>`
+  ).join('') : '<div class="empty">No assets found. Run <code>os import --from claude</code> to get started.</div>';
+}
+
+render();
+</script>
+</body>
+</html>
