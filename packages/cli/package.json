@@ -1,6 +1,6 @@
 {
   "name": "openskill",
-  "version": "1.2.0",
+  "version": "1.0.0",
   "description": "CLI for managing cross-domain AI data assets (Skills, Memory, Preferences)",
   "keywords": [
     "ai",

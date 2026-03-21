@@ -1,6 +1,6 @@
 {
   "name": "openskill-desktop",
-  "version": "1.2.0",
+  "version": "1.0.0",
   "description": "OpenSkill — macOS Desktop Client for AI Data Asset Management",
   "main": "src/main.js",
   "scripts": {

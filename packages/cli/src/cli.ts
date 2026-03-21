@@ -15,7 +15,7 @@ import { CopilotAdapter } from './adapters/copilot.js';
 import { CodexAdapter } from './adapters/codex.js';
 
 const program = new Command();
-program.name('os').description('OpenSkill — Cross-domain AI data asset manager').version('1.2.0');
+program.name('os').description('OpenSkill — Cross-domain AI data asset manager').version('1.0.0');
 
 const typeIcon: Record<string, string> = { skill: '⚡', memory: '🧠', preference: '⚙️' };
 const levelLabel: Record<number, string> = { 0: 'L0:Universal', 1: 'L1:Domain', 2: 'L2:Tool' };
