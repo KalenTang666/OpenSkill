@@ -1,14 +1,22 @@
 {
-  "name": "@openskill/mcp-server",
+  "name": "@kalentang666/openskill-mcp-server",
   "version": "1.0.0",
   "description": "MCP Server for OpenSkill — access your AI data assets from Claude/OpenClaw",
   "author": "Kalen666",
   "license": "MIT",
-  "repository": { "type": "git", "url": "https://github.com/KalenTang666/OpenSkill.git", "directory": "packages/mcp-server" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/KalenTang666/OpenSkill.git",
+    "directory": "packages/mcp-server"
+  },
   "type": "module",
-  "bin": { "openskill-mcp": "./dist/index.js" },
+  "bin": {
+    "openskill-mcp": "./dist/index.js"
+  },
   "main": "./dist/index.js",
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup src/index.ts --format esm --clean",
     "dev": "tsup src/index.ts --format esm --watch"
@@ -22,5 +30,10 @@
     "typescript": "^5.5.0",
     "@types/node": "^22.0.0"
   },
-  "engines": { "node": ">=18.0.0" }
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  }
 }

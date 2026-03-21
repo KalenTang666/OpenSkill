@@ -195,9 +195,10 @@ Then in Claude: *"Search my openskill for TypeScript coding skills"*
 
 ### Next
 
-- [ ] npm publish (`npm install -g openskill`)
-- [ ] Homebrew formula (`brew install openskill`)
-- [ ] macOS DMG binary release on GitHub
+- [x] GitHub Package Registry (auto-publish on release)
+- [x] Homebrew formula (`brew install openskill`)
+- [x] macOS DMG build workflow (auto-build on release)
+- [ ] npm publish to npmjs.com (`npm install -g openskill`)
 - [ ] Web dashboard (full React rewrite)
 
 ### Vision

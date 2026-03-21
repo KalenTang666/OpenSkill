@@ -1,4 +1,4 @@
-name: Publish to npm
+name: Publish Packages
 
 on:
   release:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  publish:
+  publish-github:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -16,22 +16,23 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-          registry-url: 'https://registry.npmjs.org'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@kalentang666'
+
       - name: Publish CLI
         working-directory: packages/cli
-        run: |
-          npm publish --access public || echo "Already published or auth needed"
+        run: npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Publish SDK
         working-directory: packages/sdk
-        run: |
-          npm publish --access public || echo "Already published or auth needed"
+        run: npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Publish MCP Server
         working-directory: packages/mcp-server
-        run: |
-          npm publish --access public || echo "Already published or auth needed"
+        run: npm publish --access public
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
