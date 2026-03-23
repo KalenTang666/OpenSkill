@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * OpenSkill CLI v0.6.0 — All Phases Complete + 4 Tracks
+ * OpenSkill CLI v1.0.0 — Cross-domain AI skill asset manager
  */
 import { Command } from 'commander';
 import chalk from 'chalk';
