@@ -22,16 +22,16 @@
 | 行为 | XP 值 | 说明 |
 |------|-------|------|
 | oski init | +100 | 首次初始化（一次性） |
-| os import | +20 | 每次导入 |
-| os discover | +30 | 扫描本地环境 |
+| oski import | +20 | 每次导入 |
+| oski discover | +30 | 扫描本地环境 |
 | os analyze | +15 | 分析资产质量 |
 | hw create (asset) | +25 | 创建新资产 |
-| os scan --all | +20 | 安全扫描 |
-| os sign | +30 | 签名资产 |
-| os sync | +40 | 跨平台同步 |
+| oski scan --all | +20 | 安全扫描 |
+| oski sign | +30 | 签名资产 |
+| oski sync | +40 | 跨平台同步 |
 | os team share | +50 | 分享到团队 |
 | os marketplace publish | +80 | 发布到市场 |
-| os registry publish | +100 | 发布到 OSP 注册表 |
+| oski registry publish | +100 | 发布到 OSP 注册表 |
 | 连续 7 天活跃 | +200 | 周活跃奖励 |
 | 修复安全问题 | +60 | 根据 scan 建议修复 |
 

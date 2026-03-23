@@ -7,8 +7,8 @@
 **One Skill. All Your AI.** — Open Standard for AI Skill Portability
 
 #### Core Platform
-- **53 CLI commands** via `oski` command
-- **14 core modules**: wallet, types, crypto, protocol, registry, local-scanner, analyzer, growth, migration, hooks, smart-match, hardware-bridge, skill-hub, skill-registry
+- **60 CLI commands** via `oski` command
+- **20 core modules**: wallet, types, crypto, protocol, registry, local-scanner, analyzer, growth, migration, hooks, smart-match, hardware-bridge, skill-hub, skill-registry
 - **9 platform adapters**: Claude, Codex CLI, Cursor, GitHub Copilot, Gemini, VS Code, Windsurf, OpenClaw + template
 - **OSP Protocol** (OpenSkill Protocol) v1.0 specification
 
@@ -40,3 +40,27 @@
 - CI/CD via GitHub Actions (Node 18/20/22)
 - Agent Skills SKILL.md for cross-platform installation
 - MIT License
+
+## [1.0.1] - 2026-03-23
+
+### Socratic Audit Release
+
+#### Fixes
+- CLI renamed `os` → `oski` (avoids OS command conflicts)
+- Wallet createAsset ID collision bug fixed (security scan now catches evil skills)
+- README completely rewritten with honest Status section (🟡/✅/🔴)
+- Removed fake npm badge (was linking to wrong package)
+- Quick Start now says `git clone + build` (not false npm install)
+- Version comment in CLI header fixed v0.6.0 → v1.0.0
+
+#### New Features
+- 4 AI wearable device profiles: ai-glasses, ai-pendant, smartwatch-ai, robot-ros2 (11 total)
+- 11 E2E integration tests (40 total: 29 core + 11 E2E)
+- Adapters verified reading real platform files (8/9 working)
+- Security scanner verified catching 9 attack vectors (Trust: 0/100)
+
+#### Removed
+- `publish-to-github.sh` (stale)
+- `docs/distribution-guide.md` (outdated)
+- `docs/assets/logo-placeholder.svg` (unnecessary)
+- `docs/assets/desktop-screenshot.html` (dev artifact)

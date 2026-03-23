@@ -125,7 +125,7 @@ function renderAssets(type) {
         <span>${a.tags.map(t => `<span class="tag">#${t}</span>`).join(' ')}</span>
       </div>
     </div>`
-  ).join('') : '<div class="empty">No assets found. Run <code>os import --from claude</code> to get started.</div>';
+  ).join('') : '<div class="empty">No assets found. Run <code>oski import --from claude</code> to get started.</div>';
 }
 
 render();

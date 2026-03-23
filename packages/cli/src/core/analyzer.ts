@@ -177,7 +177,7 @@ export function generateRecommendations(scan: ScanResult, comparison: Comparison
       priority: 'high', category: 'consolidate',
       title: `Consolidate duplicate: ${dup.assets[0].name}`,
       description: `Found on ${dup.assets.map(a => a.platform).join(', ')} (${dup.similarity})`,
-      action: `oski import --from ${dup.assets[0].platform} && os sync --to ${dup.assets[1]?.platform}`,
+      action: `oski import --from ${dup.assets[0].platform} && oski sync --to ${dup.assets[1]?.platform}`,
       impact: 'Eliminates version drift between platforms',
     });
   }
@@ -215,7 +215,7 @@ export function generateRecommendations(scan: ScanResult, comparison: Comparison
       priority: 'low', category: 'sync',
       title: `Share "${cand.source.name}" to ${cand.targets.join(', ')}`,
       description: cand.reason,
-      action: `oski import --from ${cand.source.platform} && os sync --to ${cand.targets[0]}`,
+      action: `oski import --from ${cand.source.platform} && oski sync --to ${cand.targets[0]}`,
       impact: 'Maximizes reuse of proven skills',
     });
   }

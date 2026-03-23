@@ -53,7 +53,7 @@ program.command('init').description('Initialize a new wallet')
     console.log(chalk.dim('  Run `oski import --from claude` to import your existing assets.'));
   });
 
-// ─── os list ─────────────────────────────────────────────
+// ─── oski list ─────────────────────────────────────────────
 program.command('list').description('List wallet assets')
   .option('-t, --type <type>', 'Filter: skill | memory | preference')
   .option('--tags <tags>', 'Filter by tags (comma-separated)')
@@ -82,7 +82,7 @@ program.command('search <query>').description('Search assets by keyword')
     assets.forEach(printAsset);
   });
 
-// ─── os import ───────────────────────────────────────────
+// ─── oski import ───────────────────────────────────────────
 program.command('import').description('Import assets from a platform')
   .requiredOption('--from <platform>', 'Source: claude | openclaw | cursor | vscode | windsurf')
   .option('-t, --type <type>', 'Import only specific type')
@@ -119,7 +119,7 @@ program.command('export').description('Export assets to a platform')
     }
   });
 
-// ─── os sync ─────────────────────────────────────────────
+// ─── oski sync ─────────────────────────────────────────────
 program.command('sync').description('Two-way sync with a platform')
   .requiredOption('--to <platform>', 'Target platform')
   .option('--direction <dir>', 'pull | push | both', 'both')
@@ -365,7 +365,7 @@ regCmd.command('list').description('List all registry entries')
     } catch (err) { console.log(chalk.red(`  ✗ ${err}`)); }
   });
 
-// ─── os scan (Track 2: Security) ─────────────────────────
+// ─── oski scan (Track 2: Security) ─────────────────────────
 program.command('scan [id]').description('Scan asset(s) for security issues')
   .option('-a, --all', 'Scan all assets')
   .action((id, opts) => {
@@ -441,7 +441,7 @@ comCmd.command('earnings [creator-id]').description('View creator earnings')
 // v0.5.0 — Local Discovery + Analysis + Optimization
 // ═══════════════════════════════════════════════════════════
 
-// ─── os discover ─────────────────────────────────────────
+// ─── oski discover ─────────────────────────────────────────
 program.command('discover').description('Scan local system for AI skills, configs, and memory')
   .option('-v, --verbose', 'Show all scan paths')
   .action((opts) => {
@@ -839,7 +839,7 @@ program.command('hooks').description('Manage event-driven hooks')
     hooks.forEach((h: any) => console.log(`  ${h.enabled ? '🟢' : '⚪'} ${h.id}: ${h.event} → ${h.action}`));
   });
 
-// ─── os match ────────────────────────────────────────────
+// ─── oski match ────────────────────────────────────────────
 program.command('match <task>').description('Smart-match skills for a task')
   .option('--stack <items>', 'Tech stack (comma-separated)')
   .option('--platform <name>', 'Target platform')
@@ -905,7 +905,7 @@ program.command('sync-live').description('Live two-way sync between platforms')
     if (opts.remove) { const [s, t] = opts.remove.split(':'); removeSyncPair(s, t); console.log(chalk.green('  ✓ Removed')); return; }
     if (opts.run) { const results = syncAll(); results.forEach((r: any) => console.log(`  ${r.conflicts ? '⚠️' : '✅'} ${r.pair.source} → ${r.pair.target}: ${r.filesChanged} changed`)); return; }
     const pairs = getSyncPairs();
-    if (!pairs.length) { console.log(chalk.dim('  No sync pairs. Add with: os sync-live --add claude:cursor')); return; }
+    if (!pairs.length) { console.log(chalk.dim('  No sync pairs. Add with: oski sync-live --add claude:cursor')); return; }
     pairs.forEach((p: any) => console.log(`  ${p.status === 'idle' ? '🟢' : '🟡'} ${p.source} ↔ ${p.target} (${p.strategy})`));
   });
 

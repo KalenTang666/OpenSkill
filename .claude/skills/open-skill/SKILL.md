@@ -17,7 +17,7 @@ npm install -g open-skill
 oski init
 oski discover        # Scan local platforms
 oski match "react"   # Smart skill matching
-os health          # Cross-platform audit
+oski health          # Cross-platform audit
 ```
 
 ## Key Features
