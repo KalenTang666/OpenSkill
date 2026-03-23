@@ -55,10 +55,10 @@ Think of it as a **portable skill manager for AI** — not a skill marketplace, 
 
 | Component | Status | Notes |
 |-----------|--------|-------|
-| CLI (`oski`) | 🟡 Source | 60 commands defined, requires `npm run build` to use |
+| CLI (`oski`) | ✅ Working | 60 commands, build from source (`npm run build`) |
 | TypeScript | ✅ Compiles | Zero errors, strict mode |
-| Tests | ✅ 29 passing | Vitest |
-| 9 Adapters | 🟡 Scaffold | Adapter interfaces defined, not connected to live APIs |
+| Tests | ✅ 40 passing | Vitest |
+| 9 Adapters | ✅ Working | Read real platform files (CLAUDE.md, .cursorrules, AGENTS.md, etc.) |
 | MCP Server | 🟡 Source | 9 tools defined |
 | Desktop Client | 🟡 Source | Electron app, requires `npm start` to run |
 | npm Package | 🔴 Not published | Planned |
@@ -224,10 +224,10 @@ Add to your `claude_desktop_config.json`:
 ### Next — Making it real
 
 - [ ] `npm publish` — make `npm install -g @kalentang666/openskill` work
-- [ ] Connect adapters to real platform APIs (Claude, Cursor, Codex)
+- [x] Adapters read real platform files (Claude, Cursor, Codex, Copilot, Gemini, VS Code, Windsurf, OpenClaw)
 - [ ] macOS DMG binary release
 - [ ] Homebrew tap submission
-- [ ] End-to-end integration tests with real platforms
+- [x] End-to-end integration tests (11 E2E tests with real platform files)
 - [ ] Web dashboard
 
 ### Vision

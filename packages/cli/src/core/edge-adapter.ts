@@ -87,6 +87,26 @@ export const BUILTIN_PROFILES: DeviceProfile[] = [
     capabilities: { memory_mb: 65536, storage_mb: 1048576, has_gpu: true, has_network: true, max_skill_size_kb: 65536, supported_formats: ['markdown', 'json', 'yaml', 'python', 'onnx', 'docker'] },
     description: 'Full-capability edge server, factory floor, data center edge'
   },
+  {
+    id: 'ai-glasses', name: 'AI Smart Glasses', type: 'wearable',
+    capabilities: { memory_mb: 512, storage_mb: 2048, has_gpu: false, has_network: true, max_skill_size_kb: 32, supported_formats: ['markdown', 'json'] },
+    description: 'Meta Ray-Ban, Apple Glasses, Samsung — voice-triggered, camera context'
+  },
+  {
+    id: 'ai-pendant', name: 'AI Pendant/Pin', type: 'wearable',
+    capabilities: { memory_mb: 128, storage_mb: 512, has_gpu: false, has_network: true, max_skill_size_kb: 16, supported_formats: ['json'] },
+    description: 'Apple AI Pin, Plaud NotePin — transcription, voice, minimal context'
+  },
+  {
+    id: 'smartwatch-ai', name: 'AI Smartwatch', type: 'wearable',
+    capabilities: { memory_mb: 1024, storage_mb: 4096, has_gpu: false, has_network: true, max_skill_size_kb: 64, supported_formats: ['markdown', 'json'] },
+    description: 'Meta Malibu 2, Apple Watch AI — health, gesture, assistant relay'
+  },
+  {
+    id: 'robot-ros2', name: 'ROS2 Robot', type: 'custom',
+    capabilities: { memory_mb: 8192, storage_mb: 65536, has_gpu: true, has_network: true, max_skill_size_kb: 4096, supported_formats: ['markdown', 'json', 'yaml', 'python'] },
+    description: 'ROSA-compatible ROS2 robot, cobots, AMRs — real-time skills via rosbridge'
+  },
 ];
 
 /** Get all profiles (built-in + custom) */
