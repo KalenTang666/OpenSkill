@@ -5,7 +5,7 @@
 <h1 align="center">OpenSkill</h1>
 
 <p align="center">
-  <strong>One Skill. All Your AI. — Open Standard for AI Skill Portability</strong>
+  <strong>One Skill & All Your AI. — Manage, migrate, and secure AI agent skills across 16+ platforms. Security scanner · Smart matching · Cross-device sync · Growth system.</strong>
   <br />
   跨域管理 Skills · Memory · Preferences 的开放标准 AI 技能资产管理器
   <br />
