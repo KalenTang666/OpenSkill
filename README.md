@@ -173,7 +173,7 @@ oski scan --all   # Scan all wallet assets
 | 9 Adapters | ✅ Working | Read real platform files |
 | Edge Adapter | ✅ Working | 11 device profiles, pruning, offline cache |
 | Security Scanner | ✅ Working | 14 rules, catches eval/exfil/injection |
-| MCP Server | 🟡 Source | 9 tools defined |
+| MCP Server | ✅ Builds | 9 tools, `npm run build` to use |
 | Desktop Client | 🟡 Source | Electron, requires build |
 | npm Package | 🔴 Not published | Planned |
 | Homebrew | 🔴 Not published | Formula in repo |
@@ -191,11 +191,11 @@ oski scan --all   # Scan all wallet assets
 
 ### Next
 
-- [ ] `npm publish` — `npm install -g @kalentang666/openskill`
+- [ ] `npm publish` — GitHub Actions workflow ready, needs `NPM_TOKEN` secret
 - [ ] macOS DMG binary release
 - [ ] Homebrew tap submission
 - [ ] Web dashboard
-- [ ] ROS2 skill bridge (rosbridge WebSocket integration)
+- [ ] ROS2 skill bridge (rosbridge WebSocket) — device profile `robot-ros2` ready
 
 ### Vision
 

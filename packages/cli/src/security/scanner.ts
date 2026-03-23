@@ -58,12 +58,13 @@ export function scanAsset(asset: WalletAsset): ScanReport {
 export function scanAll(assets: WalletAsset[]): ScanReport[] { return assets.map(scanAsset); }
 
 function calcTrust(asset: WalletAsset, findings: ScanFinding[]): number {
+  // Any critical finding = instant zero trust
+  if (findings.some(f => f.severity === 'critical')) return 0;
   let s = 100;
-  const ded: Record<SeverityLevel, number> = { critical: 40, high: 20, medium: 5, low: 2, info: 0 };
+  const ded: Record<SeverityLevel, number> = { critical: 100, high: 30, medium: 10, low: 3, info: 0 };
   for (const f of findings) s -= ded[f.severity];
   if (asset.author.signature) s += 5;
   if (asset.compatibility.length >= 3) s += 5;
-  if (asset.version !== '1.0.0') s += 3;
   return Math.max(0, Math.min(100, s));
 }
 
