@@ -58,7 +58,7 @@ export function hasKeys(): boolean {
 
 /** Get public key hex */
 export function getPublicKeyHex(): string {
-  if (!existsSync(PUBLIC_KEY_FILE)) throw new Error('No keys found. Run `os init` with --generate-keys.');
+  if (!existsSync(PUBLIC_KEY_FILE)) throw new Error('No keys found. Run `oski init` with --generate-keys.');
   const pem = readFileSync(PUBLIC_KEY_FILE, 'utf-8');
   return createHash('sha256').update(pem).digest('hex').slice(0, 32);
 }

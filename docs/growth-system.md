@@ -10,9 +10,9 @@
 
 | Level | 名称 | 要求 | 解锁能力 |
 |-------|------|------|----------|
-| Lv.0 | Newcomer 🌱 | `os init` | 基础 CRUD，1 个 Adapter |
-| Lv.1 | Explorer 🔍 | 导入 3+ 资产 | `os discover` + `os analyze` |
-| Lv.2 | Builder ⚡ | 创建 5+ 资产 + 1 次 scan | 全部 Adapters + `os sync` |
+| Lv.0 | Newcomer 🌱 | `oski init` | 基础 CRUD，1 个 Adapter |
+| Lv.1 | Explorer 🔍 | 导入 3+ 资产 | `oski discover` + `oski analyze` |
+| Lv.2 | Builder ⚡ | 创建 5+ 资产 + 1 次 scan | 全部 Adapters + `oski sync` |
 | Lv.3 | Contributor 🤝 | 分享 1+ 到团队或市场 | Team 功能 + Marketplace 发布 |
 | Lv.4 | Guardian 🛡️ | 签名 3+ 资产 + Trust Score ≥ 80 | Registry 发布 + 高级安全 |
 | Lv.5 | Architect 🏛️ | 10+ 跨平台同步 + 社区贡献 | 自定义 Adapter + Commerce |
@@ -21,7 +21,7 @@
 
 | 行为 | XP 值 | 说明 |
 |------|-------|------|
-| os init | +100 | 首次初始化（一次性） |
+| oski init | +100 | 首次初始化（一次性） |
 | os import | +20 | 每次导入 |
 | os discover | +30 | 扫描本地环境 |
 | os analyze | +15 | 分析资产质量 |
@@ -39,14 +39,14 @@
 
 | 成就 | 条件 | 徽章 |
 |------|------|------|
-| First Wallet | 完成 os init | 🎒 |
+| First Wallet | 完成 oski init | 🎒 |
 | Cross-Platform | 在 3+ 平台同步 | 🌐 |
 | Security Guard | 所有资产 Trust Score ≥ 80 | 🛡️ |
 | Skill Master | 拥有 20+ Skills | ⚡ |
 | Team Player | 分享 5+ 资产到团队 | 🤝 |
 | Market Maker | 在市场发布 3+ 资产 | 📢 |
 | Protocol Pioneer | 发布到 OSP 注册表 | 🏛️ |
-| Clean Slate | `os scan --all` 零问题 | ✨ |
+| Clean Slate | `oski scan --all` 零问题 | ✨ |
 | Streak 7 | 连续 7 天使用 | 🔥 |
 | Streak 30 | 连续 30 天使用 | 💎 |
 

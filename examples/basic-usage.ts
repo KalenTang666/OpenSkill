@@ -2,8 +2,8 @@
  * Example: Using OpenSkill SDK to manage AI assets
  *
  * Prerequisites:
- *   1. Run `os init` to initialize your wallet
- *   2. Run `os import --from claude` to import existing assets
+ *   1. Run `oski init` to initialize your wallet
+ *   2. Run `oski import --from claude` to import existing assets
  */
 
 import { OpenSkillSDK } from '@openskill/sdk';

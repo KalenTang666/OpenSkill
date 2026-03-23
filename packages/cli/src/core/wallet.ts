@@ -22,7 +22,7 @@ export class Wallet {
   constructor(customDir?: string) {
     const configPath = customDir ? join(customDir, 'config.json') : CONFIG_FILE;
     if (!existsSync(configPath)) {
-      throw new Error('Wallet not initialized. Run `os init` first.');
+      throw new Error('Wallet not initialized. Run `oski init` first.');
     }
     this.config = JSON.parse(readFileSync(configPath, 'utf-8'));
   }

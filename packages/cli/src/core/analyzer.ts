@@ -177,7 +177,7 @@ export function generateRecommendations(scan: ScanResult, comparison: Comparison
       priority: 'high', category: 'consolidate',
       title: `Consolidate duplicate: ${dup.assets[0].name}`,
       description: `Found on ${dup.assets.map(a => a.platform).join(', ')} (${dup.similarity})`,
-      action: `os import --from ${dup.assets[0].platform} && os sync --to ${dup.assets[1]?.platform}`,
+      action: `oski import --from ${dup.assets[0].platform} && os sync --to ${dup.assets[1]?.platform}`,
       impact: 'Eliminates version drift between platforms',
     });
   }
@@ -189,7 +189,7 @@ export function generateRecommendations(scan: ScanResult, comparison: Comparison
         priority: 'medium', category: 'sync',
         title: `Missing preferences for ${gap.platform}`,
         description: `${gap.platform} has no preference/rules file configured`,
-        action: `os export --to ${gap.platform} --id <preference-asset-id>`,
+        action: `oski export --to ${gap.platform} --id <preference-asset-id>`,
         impact: 'Consistent coding standards across tools',
       });
     }
@@ -203,7 +203,7 @@ export function generateRecommendations(scan: ScanResult, comparison: Comparison
         priority: 'high', category: 'secure',
         title: `Security issue in ${asset.name}`,
         description: score.issues.filter(i => i.includes('Security')).join('; '),
-        action: `os scan ${asset.name}`,
+        action: `oski scan ${asset.name}`,
         impact: 'Removes potential security vulnerabilities',
       });
     }
@@ -215,7 +215,7 @@ export function generateRecommendations(scan: ScanResult, comparison: Comparison
       priority: 'low', category: 'sync',
       title: `Share "${cand.source.name}" to ${cand.targets.join(', ')}`,
       description: cand.reason,
-      action: `os import --from ${cand.source.platform} && os sync --to ${cand.targets[0]}`,
+      action: `oski import --from ${cand.source.platform} && os sync --to ${cand.targets[0]}`,
       impact: 'Maximizes reuse of proven skills',
     });
   }
@@ -228,7 +228,7 @@ export function generateRecommendations(scan: ScanResult, comparison: Comparison
         priority: 'low', category: 'cleanup',
         title: `Stale: ${asset.name}`,
         description: `Not updated in ${Math.round(days)} days`,
-        action: `os inspect <id>`,
+        action: `oski inspect <id>`,
         impact: 'Keeps your skill library fresh',
       });
     }

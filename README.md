@@ -5,17 +5,14 @@
 <h1 align="center">OpenSkill</h1>
 
 <p align="center">
-  <strong>One Skill & All Your AI. — Manage, migrate, and secure AI agent skills across 16+ platforms. Security scanner · Smart matching · Cross-device sync · Growth system.</strong>
+  <strong>One Skill. All Your AI. — Cross-domain AI skill asset manager</strong>
   <br />
   跨域管理 Skills · Memory · Preferences 的开放标准 AI 技能资产管理器
-  <br />
-  <sub>60 CLI commands · 20 core modules · 9 adapters · macOS desktop client</sub>
 </p>
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT" /></a>
-  <a href="https://www.npmjs.com/package/openskill"><img src="https://img.shields.io/badge/npm-v1.0.0-blue.svg" alt="npm" /></a>
-  <a href="https://github.com/KalenTang666/OpenSkill/actions"><img src="https://img.shields.io/badge/build-passing-brightgreen.svg" alt="Build" /></a>
+  <a href="https://github.com/KalenTang666/OpenSkill/actions"><img src="https://github.com/KalenTang666/OpenSkill/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
   <a href="https://discord.gg/MKdGbqwWsT"><img src="https://img.shields.io/badge/Discord-Join%20Community-5865F2.svg?logo=discord&logoColor=white" alt="Discord" /></a>
   <a href="./docs/whitepaper-zh.md"><img src="https://img.shields.io/badge/whitepaper-中文-orange.svg" alt="Whitepaper" /></a>
   <a href="./docs/whitepaper-en.md"><img src="https://img.shields.io/badge/whitepaper-English-orange.svg" alt="Whitepaper" /></a>
@@ -26,6 +23,7 @@
   <a href="#why-openskill">Why</a> ·
   <a href="./docs/whitepaper-zh.md">白皮书</a> ·
   <a href="#architecture">Architecture</a> ·
+  <a href="#status">Status</a> ·
   <a href="#roadmap">Roadmap</a> ·
   <a href="https://discord.gg/MKdGbqwWsT">Discord</a> ·
   <a href="./CONTRIBUTING.md">Contributing</a>
@@ -35,38 +33,60 @@
 
 ## The Problem
 
-You use Claude Code at work, OpenClaw for side projects, and Cursor for quick edits. Each one has its own Skills, Memory, and config files. Every time you switch tools, you reconfigure the same coding standards, re-explain your preferences, and lose context.
+You use Claude Code at work, Cursor for side projects, and Codex CLI for quick edits. Each one has its own Skills, Memory, and config files. Every time you switch tools, you reconfigure the same coding standards, re-explain your preferences, and lose context.
 
 **Your AI skills are scattered across platforms. OpenSkill unifies them.**
 
 ## Why OpenSkill
 
 | Pain Point | OpenSkill Solution |
-|-----------|------------------------|
-| Same config on every platform | **One hub**, sync everywhere |
-| Skills locked in one tool | **Portable assets** with adapter layer |
-| Memory lost when switching | **Versioned memory** with conflict resolution |
-| Privacy scattered across vendors | **Local-first**, you hold the keys |
+|---|---|
+| Same config on every platform | One hub, sync everywhere |
+| Skills locked in one tool | Portable assets with adapter layer |
+| Memory lost when switching | Versioned memory with conflict resolution |
+| No quality control on skills | Security scanner + quality scoring |
+| Privacy scattered across vendors | Local-first, you hold the keys |
 
-Think of it as a **portable skill manager for AI** — but instead of managing tokens, you manage Skills, Memory, and Preferences as first-class digital assets.
+Think of it as a **portable skill manager for AI** — not a skill marketplace, but the tool that manages, migrates, and secures the skills you already have. If Skills.sh is npm (registry), **OpenSkill is nvm + npm audit + package-lock.json**.
+
+## Status
+
+> ⚠️ **OpenSkill is in active development.** The architecture, protocols, and core modules are implemented as TypeScript source code. CLI commands are defined but require building from source. npm packages are not yet published.
+
+| Component | Status | Notes |
+|-----------|--------|-------|
+| CLI (`oski`) | 🟡 Source | 60 commands defined, requires `npm run build` to use |
+| TypeScript | ✅ Compiles | Zero errors, strict mode |
+| Tests | ✅ 29 passing | Vitest |
+| 9 Adapters | 🟡 Scaffold | Adapter interfaces defined, not connected to live APIs |
+| MCP Server | 🟡 Source | 9 tools defined |
+| Desktop Client | 🟡 Source | Electron app, requires `npm start` to run |
+| npm Package | 🔴 Not published | Planned |
+| Homebrew | 🔴 Not published | Formula in repo, not yet in a tap |
+| DMG Download | 🔴 Not built | Build workflow exists, triggered on release |
 
 ## Quick Start
 
 ```bash
-# Install
-npm install -g openskill
+# Clone the repository
+git clone https://github.com/KalenTang666/OpenSkill.git
+cd OpenSkill
 
-# Initialize your skill hub
-os init
+# Install dependencies
+npm install
 
-# Import your existing Claude config
-os import --from claude
+# Build the CLI
+cd packages/cli && npm run build
 
-# List your assets
-os list
+# Run
+npx oski init
+npx oski discover
+npx oski match "your task"
+```
 
-# Sync to another platform
-os sync --to openclaw
+Or install as an Agent Skill:
+```bash
+npx skills add KalenTang666/OpenSkill
 ```
 
 ## Screenshots
@@ -78,12 +98,11 @@ os sync --to openclaw
 </p>
 
 > 7 views: Dashboard · Assets · Discover · Security · Migrate · Health · Profile
-> Native macOS integration with traffic light buttons, app menu, keyboard shortcuts
 
 ### CLI
 
 ```bash
-$ os discover
+$ oski discover
 
   🔍 Discovered 3 platforms with 5 assets
 
@@ -91,75 +110,86 @@ $ os discover
   ✅ Cursor — .cursorrules
   ✅ Codex  — AGENTS.md, 1 skill
 
-$ os match "react component testing"
+$ oski match "react component testing"
 
-  🎯 Smart Match: "react component testing"
+  🎯 Smart Match: 2 results
 
-  1. 📦 React Patterns (85/100)
-     Tech: react · Task match: component, testing
-  2. 🌐 Jest Testing (62/100)
-     Tech: jest · Task match: testing
+  1. 📦 React Patterns (85/100) — Tags: react, testing
+  2. 🌐 Jest Testing (62/100) — Tags: jest, testing
 ```
 
 ## Architecture — 4-Layer Model
 
-> Aligned with Claude Code's extension architecture (编程接口层 → 集成层 → 扩展层 → 基础层)
+Aligned with Claude Code's extension architecture (编程接口层 → 集成层 → 扩展层 → 基础层)
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  编程接口层  Agent SDK                                        │
-│  TypeScript SDK · 25 public exports · Programmatic access    │
+│  TypeScript SDK · 30 public exports · Programmatic access    │
 ├─────────────────────────────────────────────────────────────┤
 │  集成层  Integration                                         │
 │  ┌──────────────────┐  ┌────────────────────┐               │
-│  │  Headless CLI     │  │  MCP Server        │               │
-│  │  53 commands      │  │  9 tools           │               │
-│  │  CI/CD ready      │  │  Claude/OpenClaw   │               │
+│  │  Headless CLI     │  │  MCP Server         │              │
+│  │  60 commands      │  │  9 tools            │              │
+│  │  CI/CD ready      │  │  Claude/OpenClaw    │              │
 │  └──────────────────┘  └────────────────────┘               │
 ├─────────────────────────────────────────────────────────────┤
 │  扩展层  Extension                                           │
-│  ┌────────┐ ┌─────────┐ ┌───────────┐ ┌───────┐            │
-│  │Commands│ │  Skills  │ │Smart Match│ │ Hooks │            │
-│  │手动触发 │ │自动发现   │ │智能匹配    │ │事件驱动│            │
-│  └────────┘ └─────────┘ └───────────┘ └───────┘            │
+│  Skills · Hooks (22 events) · Smart Match · Intelligence     │
+│  Plugin System · Marketplace Ratings                         │
 │  9 Adapters: Claude·Codex·Cursor·Copilot·Gemini·VS Code·…  │
 ├─────────────────────────────────────────────────────────────┤
 │  基础层  Foundation                                          │
-│  ┌────────┐ ┌─────────┐ ┌───────────┐ ┌─────────────┐      │
-│  │ Memory │ │  Crypto  │ │  Growth   │ │  Hardware   │      │
-│  │ 资产管理│ │ Ed25519  │ │ XP/等级   │ │  Bridge     │      │
-│  │ 版本控制│ │ SHA-256  │ │ 成就系统   │ │  跨设备同步  │      │
-│  └────────┘ └─────────┘ └───────────┘ └─────────────┘      │
+│  Memory · Ed25519 Crypto · Growth · Hardware Bridge          │
+│  Edge Adapter (RPi/Jetson/ESP32) · Live Sync · File Watcher │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-### Asset Levels
+## Core Modules (20)
 
-| Level | Scope | Sync | Example |
-|-------|-------|------|---------|
-| L0 | Universal | Lossless | Language, timezone, name, writing style |
-| L1 | Domain | Via adapter | Coding standards, domain expertise |
-| L2 | Tool-specific | Native format | CLAUDE.md, .openclaw/, .cursorrules |
+| Module | Description |
+|--------|-------------|
+| `wallet` | Asset CRUD, version history, conflict resolution |
+| `crypto` | Ed25519 signing, SHA-256 integrity, key management |
+| `protocol` | OSP Protocol v1.0 envelope, manifest, diff |
+| `migration` | Cross-platform migration, backup/restore (.osp) |
+| `hooks` | Event-driven automation (22 events × 5 actions) |
+| `smart-match` | Context-aware skill recommendations |
+| `hardware-bridge` | Device registry, cross-device sync |
+| `edge-adapter` | Skill pruning for IoT/robots (7 device profiles) |
+| `skill-intelligence` | 6-dimension quality scoring, usage learning |
+| `growth` | XP, 6 ranks, 10 achievements, streak tracking |
+| `local-scanner` | Auto-discover configs across 8 platforms |
+| `analyzer` | 5-dimension asset quality scoring |
+| `skill-hub` | Multi-source skill search |
+| `skill-registry` | Local skill registration |
+| `live-sync` | Real-time two-way platform sync |
+| `file-watcher` | Config change detection |
+| `plugin-system` | Community adapter extensibility |
+| `marketplace-ratings` | Skill ratings and reviews |
+| `registry` | Decentralized asset registry |
+| `types` | Shared TypeScript types |
 
-## Packages
-
-| Package | Description | Status |
-|---------|-------------|--------|
-| [`openskill`](./packages/cli) | CLI tool — `os init`, `os sync`, `os list` | ✅ v1.0.0 |
-| [`@openskill/sdk`](./packages/sdk) | TypeScript SDK for programmatic access | ✅ v1.0.0 |
-| [`@openskill/mcp-server`](./packages/mcp-server) | MCP Server for Claude/OpenClaw integration | ✅ v1.0.0 |
-
-## CLI Commands
+## CLI Commands (`oski`)
 
 ```bash
-os init                    # Initialize in ~/.openskill/
-os list [--type skill]     # List assets, optionally filtered
-os import --from <platform> # Import from Claude/OpenClaw/Cursor
-os export --to <platform>   # Export to a platform
-os sync --to <platform>     # Two-way sync with a platform
-os diff <id1> <id2>          # Compare two assets
-os sign <id>                # Sign asset with Ed25519 key
-os inspect <asset-id>       # View asset details + history
+oski init                          # Initialize ~/.openskill/
+oski list [--type skill]           # List assets
+oski import --from <platform>      # Import from Claude/Cursor/Codex
+oski export --to <platform>        # Export to a platform
+oski sync --to <platform>          # Two-way sync
+oski discover                      # Auto-scan 8 platforms
+oski match "task description"      # Smart skill recommendations
+oski migrate --from claude --to codex  # Cross-platform migration
+oski scan [--all]                  # Security scan (14 rules)
+oski sign <id>                     # Ed25519 sign asset
+oski hooks --add <event>           # Event-driven automation
+oski devices                       # Cross-device management
+oski edge --profiles               # IoT device profiles
+oski intelligence --score <id>     # Skill quality scoring
+oski profile                       # Growth/XP/achievements
+oski plugins                       # Plugin management
+# ... and 44 more commands
 ```
 
 ## MCP Server Integration
@@ -171,46 +201,50 @@ Add to your `claude_desktop_config.json`:
   "mcpServers": {
     "openskill": {
       "command": "npx",
-      "args": ["-y", "@openskill/mcp-server"]
+      "args": ["-y", "@kalentang666/openskill-mcp-server"]
     }
   }
 }
 ```
 
-Then in Claude: *"Search my openskill for TypeScript coding skills"*
+> ⚠️ MCP package not yet published to npm. Clone the repo and build from source for now.
 
 ## Roadmap
 
-### v1.0.0 — Current Release ✅
+### v1.0.0 — Current (Source Code)
 
-- [x] 60 CLI commands + 20 core modules + 9 platform adapters
-- [x] OSP Protocol v1.0 + Ed25519 crypto + security scanner (14 rules)
-- [x] Hook system (22 events) + Smart Match + Hardware Bridge
-- [x] File watcher (real-time config detection) + Live sync engine
-- [x] Plugin system + Marketplace ratings & reviews
-- [x] Growth system (6 ranks, XP, achievements)
-- [x] macOS Desktop Client (Electron, 7 views, secure IPC)
-- [x] TypeScript strict (zero errors) + 19 tests + CI/CD
-- [x] Agent Skills SKILL.md for cross-platform install
+- [x] 60 CLI commands + 20 core modules + 9 adapter scaffolds
+- [x] OSP Protocol v1.0 + Ed25519 crypto + security scanner
+- [x] Hooks + Smart Match + Hardware Bridge + Edge Adapter + Intelligence
+- [x] Growth system + Plugin system + Marketplace ratings
+- [x] macOS Desktop Client source (Electron)
+- [x] TypeScript strict (zero errors) + 29 tests + CI/CD
+- [x] Agent Skills SKILL.md
 
-### Next
+### Next — Making it real
 
-- [x] GitHub Package Registry (auto-publish on release)
-- [x] Homebrew formula (`brew install openskill`)
-- [x] macOS DMG build workflow (auto-build on release)
-- [ ] npm publish to npmjs.com (`npm install -g openskill`)
-- [ ] Web dashboard (full React rewrite)
+- [ ] `npm publish` — make `npm install -g @kalentang666/openskill` work
+- [ ] Connect adapters to real platform APIs (Claude, Cursor, Codex)
+- [ ] macOS DMG binary release
+- [ ] Homebrew tap submission
+- [ ] End-to-end integration tests with real platforms
+- [ ] Web dashboard
 
 ### Vision
 
 - [ ] Decentralized skill registry (IPFS)
-- [ ] AI-powered skill auto-generation from workflow
+- [ ] AI-powered skill auto-generation
 - [ ] Cross-device real-time sync (WebSocket)
-- [ ] Mobile companion app (React Native)
+- [ ] Mobile companion app
 
 ## Contributing
 
 We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+
+The most impactful contributions right now:
+1. **Connect an adapter to a real API** (e.g., make Claude adapter read actual CLAUDE.md files)
+2. **Test on your machine** and report issues
+3. **Publish to npm** (help with CI/CD pipeline)
 
 ## License
 

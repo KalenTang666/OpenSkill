@@ -14,6 +14,6 @@ class Openskill < Formula
   end
 
   test do
-    assert_match "OpenSkill", shell_output("#{bin}/os --version")
+    assert_match "OpenSkill", shell_output("#{bin}/oski --version")
   end
 end

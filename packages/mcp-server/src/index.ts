@@ -54,7 +54,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({ tools: [
 
 server.setRequestHandler(CallToolRequestSchema, async (req) => {
   const { name, arguments: args } = req.params;
-  if (!ensureWallet() && name !== 'wallet_stats') return text('Wallet not initialized. Run `os init` first.');
+  if (!ensureWallet() && name !== 'wallet_stats') return text('Wallet not initialized. Run `oski init` first.');
 
   switch (name) {
     case 'wallet_list': {
@@ -110,7 +110,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => {
       }
       const config = existsSync(join(WALLET_DIR, 'config.json')) ? JSON.parse(readFileSync(join(WALLET_DIR, 'config.json'), 'utf-8')) : {};
       const teams = config.teams ?? [];
-      return text(teams.length ? teams.map((t: any) => `• ${t.name} (${t.id}) — ${t.role}`).join('\n') : 'No teams. Use `os team create <id> <name>` to create one.');
+      return text(teams.length ? teams.map((t: any) => `• ${t.name} (${t.id}) — ${t.role}`).join('\n') : 'No teams. Use `oski team create <id> <name>` to create one.');
     }
     case 'wallet_team_share': {
       const asset = loadAssets().find(a => a.id === String(args?.asset_id));

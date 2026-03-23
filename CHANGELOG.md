@@ -7,7 +7,7 @@
 **One Skill. All Your AI.** — Open Standard for AI Skill Portability
 
 #### Core Platform
-- **53 CLI commands** via `os` command
+- **53 CLI commands** via `oski` command
 - **14 core modules**: wallet, types, crypto, protocol, registry, local-scanner, analyzer, growth, migration, hooks, smart-match, hardware-bridge, skill-hub, skill-registry
 - **9 platform adapters**: Claude, Codex CLI, Cursor, GitHub Copilot, Gemini, VS Code, Windsurf, OpenClaw + template
 - **OSP Protocol** (OpenSkill Protocol) v1.0 specification
@@ -19,7 +19,7 @@
 - **基础层 (Foundation)**: Memory + Ed25519 Crypto + Growth System + Hardware Bridge
 
 #### Key Features
-- **Cross-platform migration**: `os migrate --from claude --to codex`
+- **Cross-platform migration**: `oski migrate --from claude --to codex`
 - **AI identity backup/restore**: `.osp` portable bundles with SHA-256 verification
 - **Security scanner**: 14 detection rules across 5 categories
 - **Growth system**: 6 ranks, 14 XP actions, 10 achievements

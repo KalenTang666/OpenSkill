@@ -7,58 +7,58 @@
 ### Core
 | Command | Description |
 |---------|-------------|
-| `os init [--user-id] [--name] [--generate-keys]` | Initialize wallet + optional Ed25519 keypair |
-| `os list [-t type] [--tags] [-l level] [--team]` | List assets with filters |
-| `os search <query>` | Full-text search across name, tags, content |
-| `os inspect <id>` | View asset details + version history |
-| `os diff <id1> <id2>` | Compare two assets side by side |
-| `os stats` | Wallet statistics |
-| `os adapters` | List available platform adapters + detection status |
+| `oski init [--user-id] [--name] [--generate-keys]` | Initialize wallet + optional Ed25519 keypair |
+| `oski list [-t type] [--tags] [-l level] [--team]` | List assets with filters |
+| `oski search <query>` | Full-text search across name, tags, content |
+| `oski inspect <id>` | View asset details + version history |
+| `oski diff <id1> <id2>` | Compare two assets side by side |
+| `oski stats` | Wallet statistics |
+| `oski adapters` | List available platform adapters + detection status |
 
 ### Import/Export/Sync
 | Command | Description |
 |---------|-------------|
-| `os import --from <platform>` | Import from: claude, openclaw, cursor, vscode, windsurf |
-| `os export --to <platform> --id <id>` | Export specific asset to platform |
-| `os sync --to <platform> [--direction pull\|push\|both]` | Two-way sync with conflict resolution |
+| `oski import --from <platform>` | Import from: claude, openclaw, cursor, vscode, windsurf |
+| `oski export --to <platform> --id <id>` | Export specific asset to platform |
+| `oski sync --to <platform> [--direction pull\|push\|both]` | Two-way sync with conflict resolution |
 
 ### Security (Phase 3+4)
 | Command | Description |
 |---------|-------------|
-| `os sign <id>` | Sign an asset with Ed25519 key |
-| `os verify <id>` | Verify asset signature integrity |
-| `os keys` | Show public key info |
-| `os scan [id] [--all]` | Security scan asset(s) — 14 detection rules |
+| `oski sign <id>` | Sign an asset with Ed25519 key |
+| `oski verify <id>` | Verify asset signature integrity |
+| `oski keys` | Show public key info |
+| `oski scan [id] [--all]` | Security scan asset(s) — 14 detection rules |
 
 ### Discovery & Analysis (v0.5.0)
 | Command | Description |
 |---------|-------------|
-| `os discover [-v]` | Scan local system for AI skills, configs, memory across 8 platforms |
-| `os analyze [-p platform]` | Quality scoring + cross-platform comparison + recommendations |
-| `os compare [--platforms]` | Compare assets across platforms (duplicates, gaps, candidates) |
-| `os optimize [--dry-run]` | Apply recommended optimizations with auto-import |
+| `oski discover [-v]` | Scan local system for AI skills, configs, memory across 8 platforms |
+| `oski analyze [-p platform]` | Quality scoring + cross-platform comparison + recommendations |
+| `oski compare [--platforms]` | Compare assets across platforms (duplicates, gaps, candidates) |
+| `oski optimize [--dry-run]` | Apply recommended optimizations with auto-import |
 
 ### Teams (Phase 2)
 | Command | Description |
 |---------|-------------|
-| `os team create <id> <name>` | Create a team |
-| `os team list` | List teams |
-| `os team share <asset-id> <team-id>` | Share asset to team |
-| `os team assets <team-id>` | List team assets |
+| `oski team create <id> <name>` | Create a team |
+| `oski team list` | List teams |
+| `oski team share <asset-id> <team-id>` | Share asset to team |
+| `oski team assets <team-id>` | List team assets |
 
 ### Marketplace (Phase 2)
 | Command | Description |
 |---------|-------------|
-| `os marketplace publish <id> [-d desc] [-p price]` | Publish asset |
-| `os marketplace list [-t type]` | Browse marketplace |
+| `oski marketplace publish <id> [-d desc] [-p price]` | Publish asset |
+| `oski marketplace list [-t type]` | Browse marketplace |
 
 ### Registry (Phase 3)
 | Command | Description |
 |---------|-------------|
-| `os registry publish <id>` | Publish to OSP registry |
-| `os registry search <query>` | Search registry |
-| `os registry install <hwp-id>` | Install from registry |
-| `os registry list` | List registry entries |
+| `oski registry publish <id>` | Publish to OSP registry |
+| `oski registry search <query>` | Search registry |
+| `oski registry install <hwp-id>` | Install from registry |
+| `oski registry list` | List registry entries |
 
 ## SDK API (@openskill/sdk)
 
@@ -126,11 +126,11 @@ diffManifests(local, remote): { missing, changed, extra }
 ### Migration & Identity (v0.7.0)
 | Command | Description |
 |---------|-------------|
-| `os migrate --from <src> --to <dest> [--dry-run]` | One-click cross-platform migration |
-| `os backup [-o path]` | Export full AI identity as .osp bundle |
-| `os restore <file.osp>` | Restore from backup to wallet |
-| `os onboard <platform>` | Deploy wallet contents to new platform |
-| `os health` | Cross-platform consistency audit |
+| `oski migrate --from <src> --to <dest> [--dry-run]` | One-click cross-platform migration |
+| `oski backup [-o path]` | Export full AI identity as .osp bundle |
+| `oski restore <file.osp>` | Restore from backup to wallet |
+| `oski onboard <platform>` | Deploy wallet contents to new platform |
+| `oski health` | Cross-platform consistency audit |
 
 ### Desktop Client (v0.8.0)
 | Feature | Description |

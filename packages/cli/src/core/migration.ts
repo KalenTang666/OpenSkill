@@ -471,10 +471,10 @@ export function checkHealth(): HealthReport {
     : 0;
 
   const recommendations: string[] = [];
-  if (drift.length) recommendations.push('Run `os migrate` to sync rules across platforms');
-  if (gaps.length) recommendations.push('Run `os onboard <platform>` to fill gaps');
+  if (drift.length) recommendations.push('Run `oski migrate` to sync rules across platforms');
+  if (gaps.length) recommendations.push('Run `oski onboard <platform>` to fill gaps');
   if (detectedPlatforms.length === 0) recommendations.push('No AI platforms detected — install Claude Code, Cursor, or Codex CLI');
-  if (allIssues.length) recommendations.push('Run `os analyze` for detailed quality scoring');
+  if (allIssues.length) recommendations.push('Run `oski analyze` for detailed quality scoring');
 
   return {
     scanned_at: new Date().toISOString(),

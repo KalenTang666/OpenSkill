@@ -11,7 +11,7 @@ A clear description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce:
-1. Run `os ...`
+1. Run `oskiki ...`
 2. ...
 
 **Expected behavior**

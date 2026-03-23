@@ -24,7 +24,7 @@
   "homepage": "https://github.com/KalenTang666/OpenSkill",
   "type": "module",
   "bin": {
-    "hw": "./dist/cli.js"
+    "oski": "./dist/cli.js"
   },
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",

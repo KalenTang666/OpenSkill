@@ -216,7 +216,7 @@ interface PlatformAdapter {
 ### 4.1 Phase 0: 概念验证（2 周）
 
 - [x] 白皮书发布
-- [ ] CLI 工具原型：`os init` / `os list` / `os sync`
+- [ ] CLI 工具原型：`oski init` / `oski list` / `oski sync`
 - [ ] Claude Adapter 原型（读写 CLAUDE.md + Memory）
 - [ ] 资产格式 Schema v0.1 定义
 

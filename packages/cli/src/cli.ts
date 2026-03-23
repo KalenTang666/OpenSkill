@@ -15,7 +15,7 @@ import { CopilotAdapter } from './adapters/copilot.js';
 import { CodexAdapter } from './adapters/codex.js';
 
 const program = new Command();
-program.name('os').description('OpenSkill — Cross-domain AI data asset manager').version('1.0.0');
+program.name('oski').description('OpenSkill — Cross-domain AI data asset manager').version('1.0.0');
 
 const typeIcon: Record<string, string> = { skill: '⚡', memory: '🧠', preference: '⚙️' };
 const levelLabel: Record<number, string> = { 0: 'L0:Universal', 1: 'L1:Domain', 2: 'L2:Tool' };
@@ -42,7 +42,7 @@ function printAsset(a: any) {
   console.log();
 }
 
-// ─── os init ─────────────────────────────────────────────
+// ─── oski init ─────────────────────────────────────────────
 program.command('init').description('Initialize a new wallet')
   .option('--user-id <id>', 'User identifier').option('--name <name>', 'User display name')
   .action((opts) => {
@@ -50,7 +50,7 @@ program.command('init').description('Initialize a new wallet')
     Wallet.initialize(opts.userId, opts.name);
     console.log(chalk.green('✓ Wallet initialized at'), Wallet.walletDir);
     console.log(chalk.dim('  Supported platforms: claude, openclaw, cursor, vscode, windsurf'));
-    console.log(chalk.dim('  Run `os import --from claude` to import your existing assets.'));
+    console.log(chalk.dim('  Run `oski import --from claude` to import your existing assets.'));
   });
 
 // ─── os list ─────────────────────────────────────────────
@@ -115,7 +115,7 @@ program.command('export').description('Export assets to a platform')
       const result = await adapter.push(asset);
       console.log(result.success ? chalk.green(`  ✓ ${result.message}`) : chalk.red(`  ✗ ${result.message}`));
     } else {
-      console.log(chalk.yellow('  Specify --id <asset-id>. Run `os list` to see assets.'));
+      console.log(chalk.yellow('  Specify --id <asset-id>. Run `oski list` to see assets.'));
     }
   });
 
@@ -209,7 +209,7 @@ teamCmd.command('list').description('List teams')
   .action(() => {
     const wallet = new Wallet();
     const teams = wallet.listTeams();
-    if (!teams.length) { console.log(chalk.dim('  No teams. Use `os team create <id> <name>` to create one.')); return; }
+    if (!teams.length) { console.log(chalk.dim('  No teams. Use `oski team create <id> <name>` to create one.')); return; }
     for (const t of teams) console.log(`  👥 ${chalk.bold(t.name)} (${t.id}) — ${t.role}`);
   });
 teamCmd.command('share <asset-id> <team-id>').description('Share an asset to a team')
@@ -284,7 +284,7 @@ program.command('verify <id>').description('Verify asset signature')
     const wallet = new Wallet();
     const asset = wallet.getAsset(id);
     if (!asset) { console.log(chalk.red(`✗ Asset not found: ${id}`)); return; }
-    if (!asset.author.signature) { console.log(chalk.yellow(`  ⚠ Asset not signed. Use \`os sign ${id}\` first.`)); return; }
+    if (!asset.author.signature) { console.log(chalk.yellow(`  ⚠ Asset not signed. Use \`oski sign ${id}\` first.`)); return; }
     console.log(chalk.green(`  ✓ Asset has signature: ${asset.author.signature.slice(0, 40)}...`));
   });
 
@@ -385,7 +385,7 @@ program.command('scan [id]').description('Scan asset(s) for security issues')
       console.log(chalk.bold('\n  Security Scan\n'));
       console.log(formatReport(scanAsset(asset)));
     } else {
-      console.log(chalk.yellow('  Specify asset ID or use --all. Run `os list` to see assets.'));
+      console.log(chalk.yellow('  Specify asset ID or use --all. Run `oski list` to see assets.'));
     }
   });
 
@@ -476,7 +476,7 @@ program.command('discover').description('Scan local system for AI skills, config
       console.log(chalk.dim('  All scan paths:'));
       for (const p of scan.scan_paths) console.log(chalk.dim(`    ${p.exists ? '✓' : '✗'} [${p.platform}] ${p.path}`));
     }
-    console.log(chalk.dim(`  Run \`os analyze\` for quality scoring and recommendations.\n`));
+    console.log(chalk.dim(`  Run \`oski analyze\` for quality scoring and recommendations.\n`));
   });
 
 // ─── os analyze ──────────────────────────────────────────
@@ -488,7 +488,7 @@ program.command('analyze').description('Analyze quality and provide recommendati
     const scan = discoverLocalAssets();
     let assets = scan.assets;
     if (opts.platform) assets = assets.filter((a: any) => a.platform === opts.platform);
-    if (!assets.length) { console.log(chalk.dim('  No assets found. Run `os discover` first.')); return; }
+    if (!assets.length) { console.log(chalk.dim('  No assets found. Run `oski discover` first.')); return; }
 
     console.log(chalk.bold(`\n  📊 Asset Analysis — ${assets.length} asset(s)\n`));
 
@@ -517,7 +517,7 @@ program.command('analyze').description('Analyze quality and provide recommendati
       console.log(chalk.bold(`\n  💡 Recommendations (${recs.length}):\n`));
       console.log(formatRecommendations(recs));
     }
-    console.log(chalk.dim(`  Run \`os optimize\` to apply recommended changes.\n`));
+    console.log(chalk.dim(`  Run \`oski optimize\` to apply recommended changes.\n`));
   });
 
 // ─── os compare ──────────────────────────────────────────
@@ -601,7 +601,7 @@ program.command('optimize').description('Apply recommended optimizations')
         }
         console.log(chalk.green(`  ✓ Auto-imported ${imported} new asset(s) into wallet.\n`));
       } catch (e) {
-        console.log(chalk.yellow(`  ⚠ Wallet not initialized. Run \`os init\` first, then \`os optimize\`.\n`));
+        console.log(chalk.yellow(`  ⚠ Wallet not initialized. Run \`oski init\` first, then \`oski optimize\`.\n`));
       }
     }
   });
