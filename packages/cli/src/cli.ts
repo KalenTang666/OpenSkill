@@ -961,6 +961,44 @@ program.command('plugins').description('Manage OpenSkill plugins')
     plugins.forEach((p: any) => console.log(`  ${p.enabled ? '🟢' : '⚪'} ${p.name} v${p.version} (${p.type}) — ${p.description}`));
   });
 
+// ═══════════════════════════════════════════════════════════
+// Edge Adapter — IoT/Robot skill deployment
+// ═══════════════════════════════════════════════════════════
+
+program.command('edge').description('Edge device skill deployment')
+  .option('--profiles', 'List device profiles')
+  .option('--deploy <profile>', 'Deploy skills to device profile')
+  .option('--cache <id>', 'Cache skill for offline')
+  .option('--stats', 'Show cache statistics')
+  .action((opts) => {
+    const edge = require('./core/edge-adapter.js');
+    if (opts.profiles) {
+      const profiles = edge.getProfiles();
+      profiles.forEach((p: any) => console.log(`  ${p.id.padEnd(14)} ${p.name.padEnd(24)} ${p.capabilities.memory_mb}MB RAM  ${p.capabilities.max_skill_size_kb}KB max  ${p.description}`));
+      return;
+    }
+    if (opts.stats) { const s = edge.getCacheStats(); console.log(`  Cached: ${s.count} skills (${s.total_size_kb} KB)`); return; }
+    if (opts.deploy) { console.log(chalk.green(`  Edge bundle for ${opts.deploy} — use SDK for programmatic deployment`)); return; }
+    console.log(chalk.dim('  Use --profiles, --deploy <profile>, --cache <id>, or --stats'));
+  });
+
+// ═══════════════════════════════════════════════════════════
+// Skill Intelligence — Quality scoring & recommendations
+// ═══════════════════════════════════════════════════════════
+
+program.command('intelligence').description('Skill quality scoring & smart recommendations')
+  .option('--score <id>', 'Score skill quality')
+  .option('--recommend', 'Get skill recommendations')
+  .option('--usage <id>', 'Show usage stats for a skill')
+  .option('--scores', 'List all stored scores')
+  .action((opts) => {
+    const intel = require('./core/skill-intelligence.js');
+    if (opts.scores) { const scores = intel.getStoredScores(); scores.forEach((s: any) => console.log(`  ${s.skill_id}: ${s.overall}/100`)); return; }
+    if (opts.usage) { const stats = intel.getSkillUsageStats(opts.usage); console.log(`  Total: ${stats.total} | Success: ${stats.success_rate}% | Platforms: ${stats.platforms.join(', ') || 'none'}`); return; }
+    if (opts.recommend) { console.log(chalk.dim('  Use SDK for context-aware recommendations')); return; }
+    console.log(chalk.dim('  Use --score <id>, --recommend, --usage <id>, or --scores'));
+  });
+
 program.parse();
 
 // ═══════════════════════════════════════════════════════════

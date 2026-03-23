@@ -9,7 +9,7 @@
   <br />
   跨域管理 Skills · Memory · Preferences 的开放标准 AI 技能资产管理器
   <br />
-  <sub>58 CLI commands · 18 core modules · 9 adapters · macOS desktop client</sub>
+  <sub>60 CLI commands · 20 core modules · 9 adapters · macOS desktop client</sub>
 </p>
 
 <p align="center">
@@ -183,7 +183,7 @@ Then in Claude: *"Search my openskill for TypeScript coding skills"*
 
 ### v1.0.0 — Current Release ✅
 
-- [x] 58 CLI commands + 18 core modules + 9 platform adapters
+- [x] 60 CLI commands + 20 core modules + 9 platform adapters
 - [x] OSP Protocol v1.0 + Ed25519 crypto + security scanner (14 rules)
 - [x] Hook system (22 events) + Smart Match + Hardware Bridge
 - [x] File watcher (real-time config detection) + Live sync engine

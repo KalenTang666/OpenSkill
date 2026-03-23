@@ -47,3 +47,9 @@ export { getSyncPairs, addSyncPair, removeSyncPair, executeSync, syncAll } from 
 // Plugin System + Marketplace Ratings
 export { getPlugins, installPlugin, uninstallPlugin, togglePlugin, getEnabledPlugins, getPluginTypes } from './core/plugin-system.js';
 export { rateSkill, getSkillRatings, getSkillStats } from './core/marketplace-ratings.js';
+
+// Edge Adapter
+export { getProfiles, addProfile, pruneSkill, generateEdgeBundle, cacheForOffline, getCacheStats, BUILTIN_PROFILES } from './core/edge-adapter.js';
+
+// Skill Intelligence
+export { scoreSkill, recordUsageEvent, getSkillUsageStats, recommend, getStoredScores, saveScore } from './core/skill-intelligence.js';
