@@ -5,246 +5,214 @@
 <h1 align="center">OpenSkill</h1>
 
 <p align="center">
-  <strong>One Skill. All Your AI. — Cross-domain AI skill asset manager</strong>
+  <strong>One Skill. All Your AI. Every Device.</strong>
   <br />
-  跨域管理 Skills · Memory · Preferences 的开放标准 AI 技能资产管理器
+  Manage, migrate & secure AI agent skills across platforms and devices
+  <br />
+  从桌面到机器人，统一管理 AI 技能资产
 </p>
 
 <p align="center">
   <a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License: MIT" /></a>
   <a href="https://github.com/KalenTang666/OpenSkill/actions"><img src="https://github.com/KalenTang666/OpenSkill/actions/workflows/ci.yml/badge.svg" alt="CI" /></a>
-  <a href="https://discord.gg/MKdGbqwWsT"><img src="https://img.shields.io/badge/Discord-Join%20Community-5865F2.svg?logo=discord&logoColor=white" alt="Discord" /></a>
-  <a href="./docs/whitepaper-zh.md"><img src="https://img.shields.io/badge/whitepaper-中文-orange.svg" alt="Whitepaper" /></a>
-  <a href="./docs/whitepaper-en.md"><img src="https://img.shields.io/badge/whitepaper-English-orange.svg" alt="Whitepaper" /></a>
+  <a href="https://discord.gg/MKdGbqwWsT"><img src="https://img.shields.io/badge/Discord-Community-5865F2.svg?logo=discord&logoColor=white" alt="Discord" /></a>
 </p>
 
 <p align="center">
+  <code>60 commands</code> · <code>20 modules</code> · <code>9 adapters</code> · <code>11 device profiles</code> · <code>40 tests</code>
+</p>
+
+<p align="center">
+  <a href="#the-problem">Problem</a> ·
   <a href="#quick-start">Quick Start</a> ·
-  <a href="#why-openskill">Why</a> ·
-  <a href="./docs/whitepaper-zh.md">白皮书</a> ·
+  <a href="#edge--hardware">Edge & Hardware</a> ·
   <a href="#architecture">Architecture</a> ·
   <a href="#status">Status</a> ·
   <a href="#roadmap">Roadmap</a> ·
-  <a href="https://discord.gg/MKdGbqwWsT">Discord</a> ·
-  <a href="./CONTRIBUTING.md">Contributing</a>
+  <a href="https://discord.gg/MKdGbqwWsT">Discord</a>
 </p>
 
 ---
 
 ## The Problem
 
-You use Claude Code at work, Cursor for side projects, and Codex CLI for quick edits. Each one has its own Skills, Memory, and config files. Every time you switch tools, you reconfigure the same coding standards, re-explain your preferences, and lose context.
+Your AI skills are scattered — **across platforms AND devices**.
 
-**Your AI skills are scattered across platforms. OpenSkill unifies them.**
+On the **software** side: Claude Code at work, Cursor for side projects, Codex CLI for quick edits. Each has its own Skills, Memory, and config. Every tool switch means reconfiguring the same standards.
+
+On the **hardware** side: your laptop runs full skill sets, but your Jetson Nano robot only has 4GB RAM. Your ESP32 sensor has 4MB total. Your AI smart glasses can handle 32KB. Today there is **no tool** that manages which skills go where, prunes them to fit, or syncs them across devices.
+
+**OpenSkill unifies both dimensions** — the skill management layer between your AI agents and your hardware.
 
 ## Why OpenSkill
 
-| Pain Point | OpenSkill Solution |
-|---|---|
-| Same config on every platform | One hub, sync everywhere |
-| Skills locked in one tool | Portable assets with adapter layer |
-| Memory lost when switching | Versioned memory with conflict resolution |
-| No quality control on skills | Security scanner + quality scoring |
+| Problem | OpenSkill Solution |
+|---------|-------------------|
+| Same config on every AI platform | One hub, sync everywhere |
+| Skills locked in one tool | Portable assets with 9 adapter layer |
+| No quality control on community skills | Security scanner (14 rules) + 6-dimension quality scoring |
+| Can't deploy skills to robots/IoT | Edge Adapter with 11 device profiles — prune, cache, deploy |
+| No skill management for wearables | AI glasses, pendants, smartwatches profiles built-in |
+| Skills break on constrained hardware | Auto-pruning by device memory, GPU, storage capabilities |
+| Offline robots can't get skill updates | Offline cache with SHA-256 integrity verification |
 | Privacy scattered across vendors | Local-first, you hold the keys |
 
-Think of it as a **portable skill manager for AI** — not a skill marketplace, but the tool that manages, migrates, and secures the skills you already have. If Skills.sh is npm (registry), **OpenSkill is nvm + npm audit + package-lock.json**.
-
-## Status
-
-> ⚠️ **OpenSkill is in active development.** The architecture, protocols, and core modules are implemented as TypeScript source code. CLI commands are defined but require building from source. npm packages are not yet published.
-
-| Component | Status | Notes |
-|-----------|--------|-------|
-| CLI (`oski`) | ✅ Working | 60 commands, build from source (`npm run build`) |
-| TypeScript | ✅ Compiles | Zero errors, strict mode |
-| Tests | ✅ 40 passing | Vitest |
-| 9 Adapters | ✅ Working | Read real platform files (CLAUDE.md, .cursorrules, AGENTS.md, etc.) |
-| MCP Server | 🟡 Source | 9 tools defined |
-| Desktop Client | 🟡 Source | Electron app, requires `npm start` to run |
-| npm Package | 🔴 Not published | Planned |
-| Homebrew | 🔴 Not published | Formula in repo, not yet in a tap |
-| DMG Download | 🔴 Not built | Build workflow exists, triggered on release |
+> If Skills.sh is npm (registry), **OpenSkill is the Docker Engine for skills** — managing which skills run where, with what constraints, on what devices.
 
 ## Quick Start
 
 ```bash
-# Clone the repository
 git clone https://github.com/KalenTang666/OpenSkill.git
-cd OpenSkill
+cd OpenSkill/packages/cli && npm install && npm run build
 
-# Install dependencies
-npm install
-
-# Build the CLI
-cd packages/cli && npm run build
-
-# Run
-npx oski init
-npx oski discover
-npx oski match "your task"
+npx oski init              # Initialize skill wallet
+npx oski discover          # Scan 8 AI platforms
+npx oski scan --all        # Security scan (14 rules)
+npx oski match "your task" # Smart recommendations
+npx oski edge --profiles   # Show 11 device profiles
 ```
 
-Or install as an Agent Skill:
+Or install as an Agent Skill: `npx skills add KalenTang666/OpenSkill`
+
+## Edge & Hardware
+
+**The feature no other skill manager has.** OpenSkill can prune, deploy, and sync skills across 11 device types:
+
+| Profile | Device | RAM | Max Skill | Use Case |
+|---------|--------|-----|-----------|----------|
+| `rpi-4` | Raspberry Pi 4 | 4 GB | 512 KB | Home automation, dev server |
+| `rpi-zero` | Raspberry Pi Zero 2W | 512 MB | 128 KB | Sensor hub, edge node |
+| `jetson-nano` | NVIDIA Jetson Nano | 4 GB | 2 MB | Computer vision, robotics |
+| `jetson-orin` | NVIDIA Jetson Orin | 16 GB | 8 MB | Autonomous systems, industrial robots |
+| `esp32` | ESP32 Microcontroller | 4 MB | 8 KB | IoT sensors, smart home |
+| `wearable` | Generic Wearable | 256 MB | 64 KB | Smartwatch, basic AR |
+| `ai-glasses` | AI Smart Glasses | 512 MB | 32 KB | Meta Ray-Ban, Apple Glasses, Samsung |
+| `ai-pendant` | AI Pendant/Pin | 128 MB | 16 KB | Apple AI Pin, Plaud NotePin |
+| `smartwatch-ai` | AI Smartwatch | 1 GB | 64 KB | Meta Malibu 2, Apple Watch AI |
+| `robot-ros2` | ROS2 Robot | 8 GB | 4 MB | ROSA-compatible cobots, AMRs |
+| `server` | Edge Server | 64 GB | 64 MB | Factory floor, data center edge |
+
 ```bash
-npx skills add KalenTang666/OpenSkill
+oski edge --profiles                          # List all devices
+oski edge --deploy jetson-nano --skills "ros2" # Prune & deploy to Jetson
+oski edge --cache react-skill                 # Cache for offline use
 ```
+
+**How it works**: Skills are automatically pruned based on device capabilities — GPU-specific sections removed for non-GPU devices, code blocks stripped for unsupported formats, content truncated to fit memory limits. Each bundle gets SHA-256 integrity verification.
 
 ## Screenshots
-
-### macOS Desktop Client
 
 <p align="center">
   <img src="docs/assets/desktop-preview.svg" width="800" alt="OpenSkill Desktop — Dashboard" />
 </p>
 
-> 7 views: Dashboard · Assets · Discover · Security · Migrate · Health · Profile
-
-### CLI
-
 ```bash
 $ oski discover
-
   🔍 Discovered 3 platforms with 5 assets
-
   ✅ Claude — CLAUDE.md, memory.json, 2 skills
   ✅ Cursor — .cursorrules
   ✅ Codex  — AGENTS.md, 1 skill
 
-$ oski match "react component testing"
-
-  🎯 Smart Match: 2 results
-
-  1. 📦 React Patterns (85/100) — Tags: react, testing
-  2. 🌐 Jest Testing (62/100) — Tags: jest, testing
+$ oski scan --all
+  ✅ React Patterns — Trust: 100/100
+  ❌ Suspicious Skill — Trust: 0/100
+    🔴 [EXFIL-003] Dynamic code execution
+    🟠 [INJECT-001] Prompt injection pattern
 ```
 
 ## Architecture — 4-Layer Model
 
-Aligned with Claude Code's extension architecture (编程接口层 → 集成层 → 扩展层 → 基础层)
-
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  编程接口层  Agent SDK                                        │
-│  TypeScript SDK · 30 public exports · Programmatic access    │
+│  TypeScript SDK · 30 exports · Programmatic access           │
 ├─────────────────────────────────────────────────────────────┤
 │  集成层  Integration                                         │
-│  ┌──────────────────┐  ┌────────────────────┐               │
-│  │  Headless CLI     │  │  MCP Server         │              │
-│  │  60 commands      │  │  9 tools            │              │
-│  │  CI/CD ready      │  │  Claude/OpenClaw    │              │
-│  └──────────────────┘  └────────────────────┘               │
+│  Headless CLI (60 commands) · MCP Server (9 tools)          │
 ├─────────────────────────────────────────────────────────────┤
 │  扩展层  Extension                                           │
 │  Skills · Hooks (22 events) · Smart Match · Intelligence     │
-│  Plugin System · Marketplace Ratings                         │
-│  9 Adapters: Claude·Codex·Cursor·Copilot·Gemini·VS Code·…  │
+│  Plugin System · 9 Adapters · Marketplace Ratings            │
 ├─────────────────────────────────────────────────────────────┤
 │  基础层  Foundation                                          │
-│  Memory · Ed25519 Crypto · Growth · Hardware Bridge          │
-│  Edge Adapter (RPi/Jetson/ESP32) · Live Sync · File Watcher │
+│  Memory · Ed25519 Crypto · Growth · Live Sync               │
+│  ┌─────────────────────────────────────────────────┐        │
+│  │  Hardware Bridge + Edge Adapter                   │        │
+│  │  11 device profiles · Skill pruning · Offline     │        │
+│  │  Desktop ↔ Mobile ↔ IoT ↔ Robot ↔ Wearable      │        │
+│  └─────────────────────────────────────────────────┘        │
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## Core Modules (20)
+## Security Scanner
 
-| Module | Description |
-|--------|-------------|
-| `wallet` | Asset CRUD, version history, conflict resolution |
-| `crypto` | Ed25519 signing, SHA-256 integrity, key management |
-| `protocol` | OSP Protocol v1.0 envelope, manifest, diff |
-| `migration` | Cross-platform migration, backup/restore (.osp) |
-| `hooks` | Event-driven automation (22 events × 5 actions) |
-| `smart-match` | Context-aware skill recommendations |
-| `hardware-bridge` | Device registry, cross-device sync |
-| `edge-adapter` | Skill pruning for IoT/robots (7 device profiles) |
-| `skill-intelligence` | 6-dimension quality scoring, usage learning |
-| `growth` | XP, 6 ranks, 10 achievements, streak tracking |
-| `local-scanner` | Auto-discover configs across 8 platforms |
-| `analyzer` | 5-dimension asset quality scoring |
-| `skill-hub` | Multi-source skill search |
-| `skill-registry` | Local skill registration |
-| `live-sync` | Real-time two-way platform sync |
-| `file-watcher` | Config change detection |
-| `plugin-system` | Community adapter extensibility |
-| `marketplace-ratings` | Skill ratings and reviews |
-| `registry` | Decentralized asset registry |
-| `types` | Shared TypeScript types |
+14 detection rules across 5 categories — because [341 malicious skills were found](https://serenitiesai.com/articles/agent-skills-guide-2026) on community hubs in Feb 2026:
 
-## CLI Commands (`oski`)
+| Category | What it catches |
+|----------|----------------|
+| EXFIL | `fetch()`, `process.env`, `eval()`, credential theft |
+| INJECT | `ignore previous instructions`, prompt injection |
+| FS | `rm -rf`, destructive filesystem operations |
+| SUS | Obfuscated code, browser storage access |
+| BP | Missing metadata, poor structure |
 
 ```bash
-oski init                          # Initialize ~/.openskill/
-oski list [--type skill]           # List assets
-oski import --from <platform>      # Import from Claude/Cursor/Codex
-oski export --to <platform>        # Export to a platform
-oski sync --to <platform>          # Two-way sync
-oski discover                      # Auto-scan 8 platforms
-oski match "task description"      # Smart skill recommendations
-oski migrate --from claude --to codex  # Cross-platform migration
-oski scan [--all]                  # Security scan (14 rules)
-oski sign <id>                     # Ed25519 sign asset
-oski hooks --add <event>           # Event-driven automation
-oski devices                       # Cross-device management
-oski edge --profiles               # IoT device profiles
-oski intelligence --score <id>     # Skill quality scoring
-oski profile                       # Growth/XP/achievements
-oski plugins                       # Plugin management
-# ... and 44 more commands
+oski scan --all   # Scan all wallet assets
+# ✅ Trust: 100/100 (clean) or ❌ Trust: 0/100 (malicious)
 ```
 
-## MCP Server Integration
+## Status
 
-Add to your `claude_desktop_config.json`:
+> ⚠️ **Active development.** CLI works from source. npm not yet published.
 
-```json
-{
-  "mcpServers": {
-    "openskill": {
-      "command": "npx",
-      "args": ["-y", "@kalentang666/openskill-mcp-server"]
-    }
-  }
-}
-```
-
-> ⚠️ MCP package not yet published to npm. Clone the repo and build from source for now.
+| Component | Status | Notes |
+|-----------|--------|-------|
+| CLI (`oski`) | ✅ Working | 60 commands, `npm run build` to use |
+| TypeScript | ✅ Compiles | Zero errors, strict mode |
+| Tests | ✅ 40 passing | 29 core + 11 E2E (vitest) |
+| 9 Adapters | ✅ Working | Read real platform files |
+| Edge Adapter | ✅ Working | 11 device profiles, pruning, offline cache |
+| Security Scanner | ✅ Working | 14 rules, catches eval/exfil/injection |
+| MCP Server | 🟡 Source | 9 tools defined |
+| Desktop Client | 🟡 Source | Electron, requires build |
+| npm Package | 🔴 Not published | Planned |
+| Homebrew | 🔴 Not published | Formula in repo |
 
 ## Roadmap
 
-### v1.0.0 — Current (Source Code)
+### v1.0.0 — Current ✅
 
-- [x] 60 CLI commands + 20 core modules + 9 adapter scaffolds
-- [x] OSP Protocol v1.0 + Ed25519 crypto + security scanner
-- [x] Hooks + Smart Match + Hardware Bridge + Edge Adapter + Intelligence
-- [x] Growth system + Plugin system + Marketplace ratings
-- [x] macOS Desktop Client source (Electron)
-- [x] TypeScript strict (zero errors) + 29 tests + CI/CD
-- [x] Agent Skills SKILL.md
+- [x] 60 CLI commands + 20 core modules + 9 working adapters
+- [x] Security scanner (14 rules) + 6-dimension quality scoring
+- [x] Edge Adapter: 11 device profiles (RPi, Jetson, ESP32, AI glasses, robot-ros2...)
+- [x] Hooks (22 events) + Smart Match + Hardware Bridge + Live Sync
+- [x] 40 automated tests (29 core + 11 E2E) + TypeScript strict
+- [x] macOS Desktop Client source (Electron, 7 views)
 
-### Next — Making it real
+### Next
 
-- [ ] `npm publish` — make `npm install -g @kalentang666/openskill` work
-- [x] Adapters read real platform files (Claude, Cursor, Codex, Copilot, Gemini, VS Code, Windsurf, OpenClaw)
+- [ ] `npm publish` — `npm install -g @kalentang666/openskill`
 - [ ] macOS DMG binary release
 - [ ] Homebrew tap submission
-- [x] End-to-end integration tests (11 E2E tests with real platform files)
 - [ ] Web dashboard
+- [ ] ROS2 skill bridge (rosbridge WebSocket integration)
 
 ### Vision
 
 - [ ] Decentralized skill registry (IPFS)
-- [ ] AI-powered skill auto-generation
-- [ ] Cross-device real-time sync (WebSocket)
+- [ ] AI-powered skill auto-generation from workflow
+- [ ] Real-time cross-device sync (WebSocket)
 - [ ] Mobile companion app
 
 ## Contributing
 
-We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
+We welcome contributions! See [CONTRIBUTING.md](./CONTRIBUTING.md).
 
-The most impactful contributions right now:
-1. **Connect an adapter to a real API** (e.g., make Claude adapter read actual CLAUDE.md files)
-2. **Test on your machine** and report issues
-3. **Publish to npm** (help with CI/CD pipeline)
+High-impact areas:
+1. **Test on your hardware** — run `oski edge --profiles` on RPi/Jetson and report
+2. **Add device profiles** — custom profiles for your hardware
+3. **ROS2 integration** — connect Edge Adapter to rosbridge
+4. **npm publish** — help with CI/CD pipeline
 
 ## License
 
@@ -253,7 +221,7 @@ The most impactful contributions right now:
 ---
 
 <p align="center">
-  <sub>Built with conviction that your AI data should belong to you.</sub>
+  <sub>Built with conviction that your AI skills belong to you — on every device.</sub>
   <br />
-  <sub>让 AI 数据资产回归用户手中。</sub>
+  <sub>让 AI 技能资产回归用户手中 — 从桌面到机器人。</sub>
 </p>
