@@ -72,7 +72,7 @@ export class Wallet {
   }): WalletAsset {
     const now = new Date().toISOString();
     const asset: WalletAsset = {
-      id: `hw-${params.type.slice(0, 3)}-${Date.now().toString(36)}`,
+      id: `hw-${params.type.slice(0, 3)}-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 6)}`,
       type: params.type, level: params.level, name: params.name,
       version: '1.0.0', created_at: now, updated_at: now,
       author: { id: this.config.user.id },
