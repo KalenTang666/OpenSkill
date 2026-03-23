@@ -21,16 +21,27 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
 
-      - name: Install dependencies
+      - name: Install CLI dependencies
+        working-directory: packages/cli
         run: npm install
 
       - name: TypeScript check
         working-directory: packages/cli
         run: npx tsc --noEmit
 
+      - name: Build
+        working-directory: packages/cli
+        run: npm run build
+
       - name: Run tests
         working-directory: packages/cli
         run: npx vitest run
+
+      - name: Verify CLI runs
+        working-directory: packages/cli
+        run: |
+          node dist/cli.js --version
+          echo "✅ CLI version: $(node dist/cli.js --version)"
 
       - name: Validate structure
         run: |
@@ -40,5 +51,7 @@ jobs:
           test -f packages/desktop/src/main.js
           test -f .claude/skills/open-skill/SKILL.md
           MODULES=$(ls packages/cli/src/core/*.ts | wc -l)
-          test $MODULES -ge 14
-          echo "✅ All checks passed"
+          test $MODULES -ge 18
+          COMMANDS=$(grep -c '\.command(' packages/cli/src/cli.ts)
+          test $COMMANDS -ge 58
+          echo "✅ Structure: $MODULES modules, $COMMANDS commands"
